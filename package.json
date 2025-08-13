@@ -11,7 +11,6 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@lottiefiles/react-lottie-player": "^3.6.0",
-    "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/supabase-js": "^2.54.0",
     "aos": "^2.3.4",
     "framer-motion": "^12.23.11",
