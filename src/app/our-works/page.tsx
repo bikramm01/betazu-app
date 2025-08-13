@@ -1,7 +1,9 @@
 "use client";
+
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Image from "next/image";
 
 export default function OurWorksPage() {
   useEffect(() => {
@@ -12,20 +14,20 @@ export default function OurWorksPage() {
     {
       title: "SK Manpower Solutions",
       desc: "A professional website for a leading manpower consultancy, designed for speed, clarity, and mobile-first responsiveness.",
-      img: "/images/sk-manpower.jpg", // replace with actual screenshot
+      img: "/images/sk-manpower.jpg", // from public/images
       link: "https://skmanpower.com",
       status: "Completed",
     },
     {
       title: "Upcoming Project",
       desc: "We’re currently building this project. Stay tuned for the launch!",
-      img: "/images/placeholder-work.jpg", // placeholder image
+      img: "/images/comingsoon.png",
       status: "In Progress",
     },
     {
       title: "Upcoming Project",
       desc: "Another exciting project under development.",
-      img: "/images/placeholder-work.jpg",
+      img: "/images/comingsoon.png",
       status: "In Progress",
     },
   ];
@@ -36,7 +38,7 @@ export default function OurWorksPage() {
       <section className="relative py-20 text-center px-4">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4">Our Best Works</h1>
         <p className="max-w-2xl mx-auto text-lg text-gray-300">
-          We’ve successfully delivered impactful solutions and are continuously
+          We have successfully delivered impactful solutions and are continuously
           building more for our clients worldwide.
         </p>
       </section>
@@ -50,9 +52,12 @@ export default function OurWorksPage() {
             className="group rounded-xl overflow-hidden backdrop-blur-lg bg-white/10 border border-white/20 shadow-xl hover:shadow-2xl hover:shadow-indigo-500/30 transition-all"
           >
             <div className="relative overflow-hidden">
-              <img
+              <Image
                 src={project.img}
                 alt={project.title}
+                width={500}
+                height={300}
+                priority={idx === 0}
                 className="w-full h-48 object-cover transform transition-transform duration-700 group-hover:scale-105"
               />
               <span
