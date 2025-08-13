@@ -24,7 +24,6 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
-
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -33,17 +32,4 @@ body {
 
 .animate-gradient {
   animation: gradientShift 5s ease infinite;
-}
-
-@keyframes kenburns {
-  0% {
-    transform: scale(1) translate(0, 0);
-  }
-  100% {
-    transform: scale(1.2) translate(-5px, -5px);
-  }
-}
-
-.animate-kenburns {
-  animation: kenburns 15s ease-in-out infinite alternate;
 }
