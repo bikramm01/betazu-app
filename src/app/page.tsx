@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import "aos/dist/aos.css";
-import AOS from "aos";
 import Head from "next/head";
 import Image from 'next/image';
 
@@ -17,7 +16,7 @@ export default function Home() {
       });
     });
   }, []);
-  
+
   const services = [
     {
       id: "websites",
@@ -350,14 +349,16 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Image */}
-            <div className="flex-1 overflow-hidden rounded-2xl shadow-lg group">
-              <img
-                src={service.image}
-                alt={service.title}
-                className="object-cover w-full h-[320px] transform transition-transform duration-700 group-hover:scale-105"
-              />
-            </div>
+           {/* Image */}
+<div className="flex-1 overflow-hidden rounded-2xl shadow-lg group">
+  <Image
+    src={service.image} // string path or imported static file
+    alt={service.title}
+    width={500}          // adjust width
+    height={320}         // adjust height
+    className="object-cover w-full h-[320px] transform transition-transform duration-700 group-hover:scale-105"
+  />
+</div>
 
             {/* Text Box */}
             <div className="flex-1 backdrop-blur-lg bg-white/10 rounded-xl shadow-xl p-8 border border-white/20">
