@@ -1,7 +1,9 @@
+// src/app/blogs/page.tsx
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 interface Blog {
   slug: string;
@@ -12,9 +14,20 @@ interface Blog {
 
 export default function BlogPage() {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
-  if (!fs.existsSync(blogsDir)) return <div>No blogs found.</div>;
+
+  // If blogs folder doesn't exist, show 404
+  if (!fs.existsSync(blogsDir)) notFound();
 
   const filenames = fs.readdirSync(blogsDir);
+
+  if (filenames.length === 0) {
+    return (
+      <div className="max-w-5xl mx-auto px-4 py-16 bg-black text-white min-h-screen">
+        <h1 className="text-4xl font-bold mb-6">No Blogs Found</h1>
+        <p className="text-gray-400">There are no blogs available yet.</p>
+      </div>
+    );
+  }
 
   const blogs: Blog[] = filenames.map((filename) => {
     const filePath = path.join(blogsDir, filename);
@@ -28,6 +41,9 @@ export default function BlogPage() {
       author: data.author,
     };
   });
+
+  // Sort blogs by date (latest first)
+  blogs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-16 bg-black text-white min-h-screen">
@@ -44,7 +60,9 @@ export default function BlogPage() {
             className="block p-4 border border-gray-700 rounded-lg hover:bg-gray-900 transition"
           >
             <h2 className="text-2xl font-semibold">{blog.title}</h2>
-            <p className="text-gray-500">{blog.date} · {blog.author}</p>
+            <p className="text-gray-500">
+              {blog.date} · {blog.author}
+            </p>
           </Link>
         ))}
       </div>
