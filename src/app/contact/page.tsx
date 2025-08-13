@@ -11,6 +11,7 @@ export default function ContactPage() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -18,17 +19,35 @@ export default function ContactPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", form);
-    setSubmitted(true);
-    setForm({ name: "", email: "", phone: "", message: "" });
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (res.ok) {
+        setSubmitted(true);
+        setForm({ name: "", email: "", phone: "", message: "" });
+      } else {
+        alert("Failed to send message. Please try again later.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-black text-white py-16 px-6">
       <div className="max-w-6xl mx-auto space-y-12">
-        {/* Heading on top */}
+        {/* Heading */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <h1 className="text-4xl sm:text-5xl font-bold">
             Let’s Build Something{" "}
@@ -42,7 +61,7 @@ export default function ContactPage() {
 
         {/* Two-column layout */}
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Form - First in mobile */}
+          {/* Form */}
           <div className="bg-[#111] p-8 rounded-2xl shadow-lg border border-white/10 order-1 lg:order-2">
             {submitted && (
               <div className="mb-6 text-green-400 text-sm sm:text-base">
@@ -90,14 +109,15 @@ export default function ContactPage() {
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-semibold py-3 rounded-lg shadow-lg shadow-orange-500/20 transition-all"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-semibold py-3 rounded-lg shadow-lg shadow-orange-500/20 transition-all disabled:opacity-50"
               >
-                Send Message
+                {loading ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>
 
-          {/* Contact Info - Second in mobile */}
+          {/* Contact Info */}
           <div className="space-y-6 order-2 lg:order-1">
             <div className="flex items-center gap-4">
               <div className="bg-orange-500/10 p-3 rounded-lg">
@@ -116,10 +136,10 @@ export default function ContactPage() {
               <div>
                 <p className="text-sm text-gray-400">Email</p>
                 <a
-                  href="mailto:contact@betazu.com"
+                  href="mailto:betazuai@gmail.com"
                   className="font-medium hover:text-orange-400 transition-colors"
                 >
-                  contact@betazu.com
+                  betazuai@gmail.com
                 </a>
               </div>
             </div>
