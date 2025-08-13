@@ -1,13 +1,18 @@
+// src/app/blogs/[slug]/page.tsx
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import ReactMarkdown from "react-markdown";
 
-interface BlogProps {
-  params: { slug: string };
+interface Params {
+  slug: string;
 }
 
-export default function BlogPost({ params }: BlogProps) {
+interface PageProps {
+  params: Params;
+}
+
+export default function BlogPost({ params }: PageProps) {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
   const filePath = path.join(blogsDir, `${params.slug}.md`);
 
