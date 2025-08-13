@@ -50,11 +50,11 @@ export default function ContactPage() {
         {/* Heading */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <h1 className="text-4xl sm:text-5xl font-bold">
-            Let’s Build Something{" "}
+            Let&apos;s Build Something{" "}
             <span className="text-orange-500">Amazing</span>
           </h1>
           <p className="text-gray-400 text-lg">
-            Have a project in mind? Let's discuss how Betazu can help you turn
+            Have a project in mind? Let&apos;s discuss how Betazu can help you turn
             ideas into impactful solutions.
           </p>
         </div>
@@ -65,7 +65,7 @@ export default function ContactPage() {
           <div className="bg-[#111] p-8 rounded-2xl shadow-lg border border-white/10 order-1 lg:order-2">
             {submitted && (
               <div className="mb-6 text-green-400 text-sm sm:text-base">
-                ✅ Thank you! We'll get back to you soon.
+                ✅ Thank you! We&apos;ll get back to you soon.
               </div>
             )}
 
