@@ -1,10 +1,8 @@
-// src/app/blogs/page.tsx
 import fs from "fs";
 import path from "path";
 import Link from "next/link";
 import matter from "gray-matter";
 
-// Type for frontmatter
 interface BlogData {
   title: string;
   date: string;
@@ -12,7 +10,6 @@ interface BlogData {
   slug: string;
 }
 
-// Server component (no "use client")
 export default function BlogsPage() {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
   const filenames = fs.readdirSync(blogsDir);
@@ -21,7 +18,6 @@ export default function BlogsPage() {
     const filePath = path.join(blogsDir, filename);
     const fileContents = fs.readFileSync(filePath, "utf8");
     const { data } = matter(fileContents);
-
     return {
       title: data.title || "No title",
       date: data.date || "No date",

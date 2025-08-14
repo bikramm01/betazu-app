@@ -2,36 +2,32 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import ReactMarkdown from "react-markdown";
+import { notFound } from "next/navigation";
 
-// Type of frontmatter
+// Type for frontmatter
 interface BlogData {
   title: string;
   date: string;
   author: string;
 }
 
-// Props type for App Router page
-interface BlogPageProps {
+// Next.js 15 compatible props
+interface Props {
   params: { slug: string };
 }
 
-// Make the component async for Next.js App Router
-export default async function BlogPage({ params }: BlogPageProps) {
+export default function BlogPage({ params }: Props) {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
   const filePath = path.join(blogsDir, `${params.slug}.md`);
 
   if (!fs.existsSync(filePath)) {
-    return <div className="p-10 text-white">Blog not found</div>;
+    notFound(); // Recommended Next.js 15 way for 404
   }
 
   const fileContents = fs.readFileSync(filePath, "utf8");
   const matterResult = matter(fileContents);
   const data = matterResult.data as BlogData;
   const content = matterResult.content;
-
-  if (!data.title || !data.date || !data.author) {
-    return <div className="p-10 text-white">Invalid blog frontmatter</div>;
-  }
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-16 bg-black text-white min-h-screen">
@@ -44,8 +40,8 @@ export default async function BlogPage({ params }: BlogPageProps) {
   );
 }
 
-// Static paths (App Router compatible)
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
+// Next.js 15 static params
+export async function generateStaticParams() {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
   const filenames = fs.readdirSync(blogsDir);
 
