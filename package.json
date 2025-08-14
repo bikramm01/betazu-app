@@ -13,6 +13,7 @@
     "@lottiefiles/react-lottie-player": "^3.6.0",
     "@supabase/supabase-js": "^2.54.0",
     "aos": "^2.3.4",
+    "dotenv": "^17.2.1",
     "framer-motion": "^12.23.11",
     "gray-matter": "^4.0.3",
     "lottie-react": "^2.4.1",
