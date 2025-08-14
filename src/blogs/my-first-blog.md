@@ -1,29 +1,25 @@
 ---
-title: "My First Vlog"
+title: "My First Blog"
 date: "2025-08-13"
 author: "Bikram Mondal"
 ---
 
-Welcome to my **first vlog** on Betazu!
+Welcome to my **first blog** on Betazu!
 
-In this vlog, I cover:
+In this blog, I cover:
 
 - How I started creating content
 - My experience with YouTube and digital marketing
 - Tips for beginners
 
-## Key Moments
+## Key Points
 
-1. **Morning Routine:** Coffee, planning, and scripting ideas.
-2. **Filming:** Behind-the-scenes shots of recording.
-3. **Editing:** My favorite tools for quick and efficient editing.
-4. **Publishing:** Uploading and SEO optimization.
+1. **Planning:** How I organize ideas before creating content.
+2. **Recording:** Behind-the-scenes of my process.
+3. **Editing:** Tools and tips for faster editing.
+4. **Publishing:** Uploading, SEO, and promotion strategies.
 
-### Watch the video
-
-
-> “Content creation is a journey, not a sprint.”
+### Example Code Snippet
 
 ```javascript
-// Example snippet from editing workflow
-console.log("Editing my first vlog!");
+console.log("Hello from my first blog!");
