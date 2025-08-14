@@ -9,13 +9,7 @@ interface BlogData {
   author: string;
 }
 
-interface BlogPageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default function BlogPost({ params }: BlogPageProps) {
+export default function BlogPost({ params }: { params: { slug: string } }) {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
   const filePath = path.join(blogsDir, `${params.slug}.md`);
 
@@ -24,7 +18,11 @@ export default function BlogPost({ params }: BlogPageProps) {
   }
 
   const fileContents = fs.readFileSync(filePath, "utf8");
-  const { data, content } = matter(fileContents) as { data: BlogData; content: string };
+  const matterResult = matter(fileContents);
+
+  // Explicit type assertion via unknown
+  const data = matterResult.data as unknown as BlogData;
+  const content = matterResult.content;
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-16 bg-black text-white min-h-screen">
@@ -42,7 +40,7 @@ export default function BlogPost({ params }: BlogPageProps) {
 // Generate static paths
 export async function generateStaticParams() {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
-  const filenames = fs.readdirSync(blogsDir);
+  const filenames = fs.existsSync(blogsDir) ? fs.readdirSync(blogsDir) : [];
 
   return filenames.map((filename) => ({
     slug: filename.replace(/\.md$/, ""),

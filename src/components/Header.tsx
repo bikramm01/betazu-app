@@ -14,18 +14,6 @@ export default function Header() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const servicesRef = useRef<HTMLDivElement | null>(null);
 
-  const placeholders = [
-    "Search on Betazu AI...",
-    "Type anything...",
-    "Explore instantly...",
-    "Your next idea starts here...",
-  ];
-
-  // Initialize placeholder
-  useEffect(() => {
-    setPlaceholderText(placeholders[0]);
-  }, []);
-
   // Handle click outside services dropdown
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -46,6 +34,13 @@ export default function Header() {
 
   // Animated placeholder
   useEffect(() => {
+    const placeholders = [
+      "Search on Betazu AI...",
+      "Type anything...",
+      "Explore instantly...",
+      "Your next idea starts here...",
+    ];
+
     let placeholderIndex = 0;
     let charIndex = 0;
     let typing = true;
@@ -71,7 +66,7 @@ export default function Header() {
     }, 100);
 
     return () => clearInterval(typeInterval);
-  }, []); // placeholders are constant
+  }, []); // placeholders are now inside effect, no dependency warnings
 
   const handleSearch = () => {
     if (searchText.trim()) {
