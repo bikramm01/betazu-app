@@ -1,71 +1,58 @@
-// src/app/blogs/page.tsx
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import { Metadata } from "next";
 
-interface Blog {
-  slug: string;
+interface BlogData {
   title: string;
   date: string;
   author: string;
 }
 
-export default function BlogPage() {
+interface PageParams {
+  slug: string;
+}
+
+export default function BlogPost({ params }: { params: PageParams }) {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
+  const filePath = path.join(blogsDir, `${params.slug}.md`);
 
-  // If blogs folder doesn't exist, show 404
-  if (!fs.existsSync(blogsDir)) notFound();
-
-  const filenames = fs.readdirSync(blogsDir);
-
-  if (filenames.length === 0) {
-    return (
-      <div className="max-w-5xl mx-auto px-4 py-16 bg-black text-white min-h-screen">
-        <h1 className="text-4xl font-bold mb-6">No Blogs Found</h1>
-        <p className="text-gray-400">There are no blogs available yet.</p>
-      </div>
-    );
+  if (!fs.existsSync(filePath)) {
+    return <div className="p-10 text-white">Blog not found</div>;
   }
 
-  const blogs: Blog[] = filenames.map((filename) => {
-    const filePath = path.join(blogsDir, filename);
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(fileContents);
+  const fileContents = fs.readFileSync(filePath, "utf8");
+  const matterResult = matter(fileContents);
 
-    return {
-      slug: filename.replace(/\.md$/, ""),
-      title: data.title,
-      date: data.date,
-      author: data.author,
-    };
-  });
+  // Type-safe cast of frontmatter
+  const data = matterResult.data as BlogData;
+  const content = matterResult.content;
 
-  // Sort blogs by date (latest first)
-  blogs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  // Optional runtime check
+  if (!data.title || !data.date || !data.author) {
+    return <div className="p-10 text-white">Invalid blog frontmatter</div>;
+  }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-16 bg-black text-white min-h-screen">
-      <h1 className="text-4xl font-bold mb-6">Blogs</h1>
-      <p className="text-gray-400 mb-10">
-        Insights, tutorials, and stories from Betazu AI.
+    <div className="max-w-3xl mx-auto px-4 py-16 bg-black text-white min-h-screen">
+      <h1 className="text-4xl font-bold mb-2">{data.title}</h1>
+      <p className="text-gray-400 mb-8">
+        {data.date} · {data.author}
       </p>
-
-      <div className="space-y-6">
-        {blogs.map((blog) => (
-          <Link
-            key={blog.slug}
-            href={`/blogs/${blog.slug}`}
-            className="block p-4 border border-gray-700 rounded-lg hover:bg-gray-900 transition"
-          >
-            <h2 className="text-2xl font-semibold">{blog.title}</h2>
-            <p className="text-gray-500">
-              {blog.date} · {blog.author}
-            </p>
-          </Link>
-        ))}
+      <div className="prose prose-invert max-w-none">
+        <ReactMarkdown>{content}</ReactMarkdown>
       </div>
     </div>
   );
+}
+
+// Generate static paths for App Router
+export async function generateStaticParams() {
+  const blogsDir = path.join(process.cwd(), "src", "blogs");
+  const filenames = fs.readdirSync(blogsDir);
+
+  return filenames.map((filename) => ({
+    slug: filename.replace(/\.md$/, ""),
+  }));
 }

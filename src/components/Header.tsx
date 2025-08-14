@@ -14,6 +14,13 @@ export default function Header() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const servicesRef = useRef<HTMLDivElement | null>(null);
 
+  const placeholders = [
+    "Search on Betazu AI...",
+    "Type anything...",
+    "Explore instantly...",
+    "Your next idea starts here...",
+  ];
+
   // Handle click outside services dropdown
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -32,15 +39,13 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Animated placeholder
+  // Initialize placeholder
   useEffect(() => {
-    const placeholders = [
-      "Search on Betazu AI...",
-      "Type anything...",
-      "Explore instantly...",
-      "Your next idea starts here...",
-    ];
+    setPlaceholderText(placeholders[0]);
+  }, [placeholders]);
 
+  // Typing animation
+  useEffect(() => {
     let placeholderIndex = 0;
     let charIndex = 0;
     let typing = true;
@@ -66,7 +71,7 @@ export default function Header() {
     }, 100);
 
     return () => clearInterval(typeInterval);
-  }, []); // placeholders are now inside effect, no dependency warnings
+  }, [placeholders]);
 
   const handleSearch = () => {
     if (searchText.trim()) {
@@ -98,7 +103,6 @@ export default function Header() {
             >
               Betazu AI
             </Link>
-
             <Link href="/" className="hover:text-blue-400">
               Home
             </Link>
