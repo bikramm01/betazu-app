@@ -3,12 +3,19 @@ import path from "path";
 import matter from "gray-matter";
 import ReactMarkdown from "react-markdown";
 
-interface BlogParams {
-  slug: string;
+interface BlogData {
+  title: string;
+  date: string;
+  author: string;
 }
 
-// Server component: fs is allowed
-export default function BlogPost({ params }: { params: BlogParams }) {
+interface BlogPageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default function BlogPost({ params }: BlogPageProps) {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
   const filePath = path.join(blogsDir, `${params.slug}.md`);
 
@@ -17,7 +24,7 @@ export default function BlogPost({ params }: { params: BlogParams }) {
   }
 
   const fileContents = fs.readFileSync(filePath, "utf8");
-  const { data, content } = matter(fileContents);
+  const { data, content } = matter(fileContents) as { data: BlogData; content: string };
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-16 bg-black text-white min-h-screen">
@@ -32,7 +39,7 @@ export default function BlogPost({ params }: { params: BlogParams }) {
   );
 }
 
-// Optional: Generate static params so Next.js knows which slugs exist
+// Generate static paths
 export async function generateStaticParams() {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
   const filenames = fs.readdirSync(blogsDir);

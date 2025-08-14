@@ -43,7 +43,7 @@ export default function FreeAuditPage() {
         </motion.h1>
 
         <p className="text-gray-300 text-lg max-w-2xl text-center mb-10">
-          Fill out the quick form below. We’ll analyze your website, show AI automation
+          Fill out the quick form below. We will analyze your website, show AI automation
           opportunities, and send you a custom strategy — all within 24 hours.
         </p>
 
@@ -117,12 +117,12 @@ export default function FreeAuditPage() {
               🎉 Thank You!
             </h2>
             <p className="text-gray-300">
-              We’ve received your request. Our team will send your free audit within 24 hours.
+              We haveve received your request. Our team will send your free audit within 24 hours.
               In the meantime, check out{" "}
               <a href="/our-works" className="text-blue-400 underline">
                 our works
               </a>{" "}
-              to see what we’ve built.
+              to see what we havve built.
             </p>
           </motion.div>
         )}
