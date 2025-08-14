@@ -9,14 +9,16 @@ export async function POST(req: Request) {
 
     const { data, error } = await resend.emails.send({
       from: "Betazu <onboarding@resend.dev>", // ✅ shared domain
-      to: "betazuai@gmail.com",
+      to: "mbikram210@gmail.com",
       subject: `New Contact Form Submission from ${name}`,
       html: `<p><strong>Email:</strong> ${email}</p><p>${message}</p>`,
     });
 
-    if (error) {
-      return new Response(JSON.stringify({ error }), { status: 500 });
-    }
+   if (error) {
+  console.error("Resend API error:", error);
+  return new Response(JSON.stringify({ error }), { status: 500 });
+}
+
 
     return new Response(JSON.stringify({ success: true, data }), { status: 200 });
   } catch (err) {
