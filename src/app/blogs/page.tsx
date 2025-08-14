@@ -1,58 +1,49 @@
 import fs from "fs";
 import path from "path";
+import Link from "next/link";
 import matter from "gray-matter";
-import ReactMarkdown from "react-markdown";
-import { Metadata } from "next";
 
 interface BlogData {
   title: string;
   date: string;
   author: string;
-}
-
-interface PageParams {
   slug: string;
 }
 
-export default function BlogPost({ params }: { params: PageParams }) {
-  const blogsDir = path.join(process.cwd(), "src", "blogs");
-  const filePath = path.join(blogsDir, `${params.slug}.md`);
-
-  if (!fs.existsSync(filePath)) {
-    return <div className="p-10 text-white">Blog not found</div>;
-  }
-
-  const fileContents = fs.readFileSync(filePath, "utf8");
-  const matterResult = matter(fileContents);
-
-  // Type-safe cast of frontmatter
-  const data = matterResult.data as BlogData;
-  const content = matterResult.content;
-
-  // Optional runtime check
-  if (!data.title || !data.date || !data.author) {
-    return <div className="p-10 text-white">Invalid blog frontmatter</div>;
-  }
-
-  return (
-    <div className="max-w-3xl mx-auto px-4 py-16 bg-black text-white min-h-screen">
-      <h1 className="text-4xl font-bold mb-2">{data.title}</h1>
-      <p className="text-gray-400 mb-8">
-        {data.date} · {data.author}
-      </p>
-      <div className="prose prose-invert max-w-none">
-        <ReactMarkdown>{content}</ReactMarkdown>
-      </div>
-    </div>
-  );
-}
-
-// Generate static paths for App Router
-export async function generateStaticParams() {
+export default function BlogsPage() {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
   const filenames = fs.readdirSync(blogsDir);
 
-  return filenames.map((filename) => ({
-    slug: filename.replace(/\.md$/, ""),
-  }));
+  const blogs: BlogData[] = filenames.map((filename) => {
+    const filePath = path.join(blogsDir, filename);
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    const { data } = matter(fileContents);
+    return {
+      title: data.title || "No title",
+      date: data.date || "No date",
+      author: data.author || "Unknown",
+      slug: filename.replace(/\.md$/, ""),
+    };
+  });
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 py-16 bg-black text-white min-h-screen">
+      <h1 className="text-4xl font-bold mb-8">All Blogs</h1>
+      <ul className="flex flex-col gap-6">
+        {blogs.map((blog) => (
+          <li key={blog.slug} className="border-b border-gray-700 pb-4">
+            <Link
+              href={`/blogs/${blog.slug}`}
+              className="text-xl font-semibold text-blue-400 hover:underline"
+            >
+              {blog.title}
+            </Link>
+            <p className="text-gray-400 text-sm">
+              {blog.date} · {blog.author}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }

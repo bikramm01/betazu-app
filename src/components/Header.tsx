@@ -5,6 +5,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { Search } from "lucide-react";
 
+// Placeholder texts for search animation
+const placeholders = [
+  "Search on Betazu AI...",
+  "Type anything...",
+  "Explore instantly...",
+  "Your next idea starts here...",
+];
+
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -13,13 +21,6 @@ export default function Header() {
   const [placeholderText, setPlaceholderText] = useState("");
   const [servicesOpen, setServicesOpen] = useState(false);
   const servicesRef = useRef<HTMLDivElement | null>(null);
-
-  const placeholders = [
-    "Search on Betazu AI...",
-    "Type anything...",
-    "Explore instantly...",
-    "Your next idea starts here...",
-  ];
 
   // Handle click outside services dropdown
   useEffect(() => {
@@ -39,12 +40,12 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Initialize placeholder
+  // Initialize placeholder text
   useEffect(() => {
     setPlaceholderText(placeholders[0]);
-  }, [placeholders]);
+  }, []);
 
-  // Typing animation
+  // Typing animation for placeholder
   useEffect(() => {
     let placeholderIndex = 0;
     let charIndex = 0;
@@ -71,7 +72,7 @@ export default function Header() {
     }, 100);
 
     return () => clearInterval(typeInterval);
-  }, [placeholders]);
+  }, []);
 
   const handleSearch = () => {
     if (searchText.trim()) {
@@ -130,10 +131,7 @@ export default function Header() {
               </div>
 
               {servicesOpen && (
-                <div
-                  className="absolute top-8 left-0 bg-[#1a1a1a] text-white rounded-xl shadow-lg shadow-blue-900/20 py-3 px-4 w-52 cursor-default animate-fade-in z-50"
-                  onMouseEnter={() => setServicesOpen(true)}
-                >
+                <div className="absolute top-8 left-0 bg-[#1a1a1a] text-white rounded-xl shadow-lg shadow-blue-900/20 py-3 px-4 w-52 cursor-default animate-fade-in z-50">
                   {[
                     { href: "/#ai-tools", label: "AI Tools" },
                     { href: "/#websites", label: "Websites" },
@@ -162,11 +160,7 @@ export default function Header() {
 
           {/* Right Side */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setShowSearch(true)}
-              className="p-2"
-              aria-label="Open search"
-            >
+            <button onClick={() => setShowSearch(true)} className="p-2" aria-label="Open search">
               <Search className="w-5 h-5 text-white hover:text-orange-400" />
             </button>
             <Link
@@ -181,13 +175,7 @@ export default function Header() {
               className="md:hidden text-gray-200 focus:outline-none"
               aria-label="Toggle menu"
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 {menuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -201,24 +189,13 @@ export default function Header() {
         {/* Mobile Drawer */}
         {menuOpen && (
           <>
-            <div
-              className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
-              onClick={() => setMenuOpen(false)}
-            />
+            <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm" onClick={() => setMenuOpen(false)} />
             <div className="fixed top-0 right-0 z-50 h-screen w-72 bg-black text-white shadow-2xl p-6 flex flex-col overflow-y-auto animate-slide-in">
-              <button
-                onClick={() => setMenuOpen(false)}
-                className="text-gray-400 hover:text-white text-lg mb-6"
-                aria-label="Close menu"
-              >
+              <button onClick={() => setMenuOpen(false)} className="text-gray-400 hover:text-white text-lg mb-6" aria-label="Close menu">
                 ✕
               </button>
               <nav className="flex flex-col gap-5 text-lg font-medium">
-                <Link
-                  href="/betazuai"
-                  onClick={() => setMenuOpen(false)}
-                  className="relative font-semibold text-transparent bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 to-blue-500 bg-clip-text bg-[length:200%_200%] animate-gradient hover:opacity-90 transition"
-                >
+                <Link href="/betazuai" onClick={() => setMenuOpen(false)} className="relative font-semibold text-transparent bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 to-blue-500 bg-clip-text bg-[length:200%_200%] animate-gradient hover:opacity-90 transition">
                   Betazu AI
                 </Link>
                 <Link href="/" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">
@@ -229,27 +206,14 @@ export default function Header() {
                   { href: "/#websites", label: "Websites" },
                   { href: "/#automation", label: "Automation" },
                 ].map(({ href, label }) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    onClick={() => setMenuOpen(false)}
-                    className="hover:text-blue-400"
-                  >
+                  <Link key={href} href={href} onClick={() => setMenuOpen(false)} className="hover:text-blue-400">
                     {label}
                   </Link>
                 ))}
-                <Link
-                  href="/our-works"
-                  onClick={() => setMenuOpen(false)}
-                  className="hover:text-blue-400"
-                >
+                <Link href="/our-works" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">
                   Our Works
                 </Link>
-                <Link
-                  href="/contact"
-                  onClick={() => setMenuOpen(false)}
-                  className="hover:text-blue-400"
-                >
+                <Link href="/contact" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">
                   Contact Us
                 </Link>
               </nav>
@@ -262,11 +226,7 @@ export default function Header() {
       {showSearch && (
         <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[999] transition-all duration-300">
           <div className="relative w-full max-w-2xl px-6">
-            <button
-              onClick={() => setShowSearch(false)}
-              className="absolute -top-10 right-2 text-gray-300 text-xl hover:text-red-500 transition"
-              aria-label="Close search"
-            >
+            <button onClick={() => setShowSearch(false)} className="absolute -top-10 right-2 text-gray-300 text-xl hover:text-red-500 transition" aria-label="Close search">
               ✕
             </button>
             <div className="relative">
@@ -278,11 +238,7 @@ export default function Header() {
                 className="w-full text-2xl px-6 py-4 rounded-full bg-white text-black placeholder-gray-500 shadow-lg focus:outline-none pr-14"
                 placeholder={placeholderText}
               />
-              <button
-                onClick={handleSearch}
-                className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-700 hover:text-blue-600 transition"
-                aria-label="Search"
-              >
+              <button onClick={handleSearch} className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-700 hover:text-blue-600 transition" aria-label="Search">
                 <Search className="h-6 w-6" />
               </button>
             </div>

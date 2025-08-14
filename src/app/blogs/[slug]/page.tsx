@@ -9,7 +9,11 @@ interface BlogData {
   author: string;
 }
 
-export default function BlogPost({ params }: { params: { slug: string } }) {
+interface PageParams {
+  slug: string;
+}
+
+export default function BlogPost({ params }: { params: PageParams }) {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
   const filePath = path.join(blogsDir, `${params.slug}.md`);
 
@@ -19,17 +23,17 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 
   const fileContents = fs.readFileSync(filePath, "utf8");
   const matterResult = matter(fileContents);
-
-  // Explicit type assertion via unknown
-  const data = matterResult.data as unknown as BlogData;
+  const data = matterResult.data as BlogData;
   const content = matterResult.content;
+
+  if (!data.title || !data.date || !data.author) {
+    return <div className="p-10 text-white">Invalid blog frontmatter</div>;
+  }
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-16 bg-black text-white min-h-screen">
       <h1 className="text-4xl font-bold mb-2">{data.title}</h1>
-      <p className="text-gray-400 mb-8">
-        {data.date} · {data.author}
-      </p>
+      <p className="text-gray-400 mb-8">{data.date} · {data.author}</p>
       <div className="prose prose-invert max-w-none">
         <ReactMarkdown>{content}</ReactMarkdown>
       </div>
@@ -37,10 +41,10 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
   );
 }
 
-// Generate static paths
+// Tell Next.js all blog slugs for static generation
 export async function generateStaticParams() {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
-  const filenames = fs.existsSync(blogsDir) ? fs.readdirSync(blogsDir) : [];
+  const filenames = fs.readdirSync(blogsDir);
 
   return filenames.map((filename) => ({
     slug: filename.replace(/\.md$/, ""),
