@@ -1,19 +1,23 @@
+// src/app/blogs/[slug]/page.tsx
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import ReactMarkdown from "react-markdown";
 
+// Frontmatter type
 interface BlogData {
   title: string;
   date: string;
   author: string;
 }
 
-interface PageParams {
-  slug: string;
+// Props type for App Router dynamic route
+interface BlogPageProps {
+  params: { slug: string };
 }
 
-export default function BlogPost({ params }: { params: PageParams }) {
+// Make sure this is a **Server Component** (no "use client")
+export default function BlogPage({ params }: BlogPageProps) {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
   const filePath = path.join(blogsDir, `${params.slug}.md`);
 
@@ -41,7 +45,7 @@ export default function BlogPost({ params }: { params: PageParams }) {
   );
 }
 
-// Tell Next.js all blog slugs for static generation
+// Next.js App Router expects this for static paths
 export async function generateStaticParams() {
   const blogsDir = path.join(process.cwd(), "src", "blogs");
   const filenames = fs.readdirSync(blogsDir);
