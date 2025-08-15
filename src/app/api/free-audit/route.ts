@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     // 1️⃣ Send to YOU
     await resend.emails.send({
       from: "Betazu <onboarding@resend.dev>", // Change after domain verification
-      to: "betazuai@gmail.com", // Replace with your inbox
+      to: "mbikram210@gmail.com", // Replace with your inbox
       subject: `New Free Audit Request from ${name}`,
       html: `
         <h2>New Free Audit Request</h2>
