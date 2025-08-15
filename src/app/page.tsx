@@ -77,124 +77,114 @@ export default function Home() {
 
 <main className="flex flex-col min-h-screen bg-neutral-950 text-gray-100 font-sans overflow-x-hidden">
 
-       {/* ================= HERO ================= */}
-<section className="relative z-10 flex-grow flex items-center justify-center py-32 px-6 md:px-12 bg-gradient-to-b from-neutral-950 to-neutral-900 overflow-hidden">
+      {/* ================= HERO ================= */}
+<section className="relative z-10 flex-grow flex items-center justify-center py-16 px-4 sm:py-24 sm:px-6 md:py-32 md:px-12 bg-gradient-to-b from-neutral-950 to-neutral-900 overflow-hidden">
 
   {/* === Glowing background rings === */}
   <div className="absolute -z-10 inset-0 pointer-events-none">
-    <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-blue-500 opacity-10 rounded-full blur-[120px] animate-pulse-slow" />
-    <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-orange-400 opacity-10 rounded-full blur-[100px] animate-pulse-slow" />
+    <div className="absolute top-1/3 left-1/4 w-[300px] sm:w-[500px] md:w-[600px] h-[300px] sm:h-[500px] md:h-[600px] bg-blue-500 opacity-10 rounded-full blur-[60px] sm:blur-[100px] md:blur-[120px] animate-pulse-slow" />
+    <div className="absolute bottom-10 right-10 w-[200px] sm:w-[300px] md:w-[400px] h-[200px] sm:h-[300px] md:h-[400px] bg-orange-400 opacity-10 rounded-full blur-[50px] sm:blur-[80px] md:blur-[100px] animate-pulse-slow" />
   </div>
 
-  <div className="max-w-7xl grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative">
+  <div className="max-w-7xl grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center relative">
 
     {/* === Faces Illustration === */}
     <div className="order-1 lg:order-2 flex justify-center items-center relative">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15)_0%,rgba(168,85,247,0.12)_35%,rgba(249,115,22,0.1)_70%,transparent_100%)] blur-2xl scale-125" />
-      <div className="relative flex gap-6 md:gap-8 lg:gap-10" role="img" aria-label="Animated faces illustration">
-        {/* Keep your SVGs here without change */}
-       {/* === Faces Illustration with Soft Glow for Dark Mode === */}
-<div className="order-1 lg:order-2 flex justify-center items-center relative">
-  {/* Subtle soft gradient glow */}
-  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15)_0%,rgba(168,85,247,0.12)_35%,rgba(249,115,22,0.1)_70%,transparent_100%)] blur-2xl scale-125"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15)_0%,rgba(168,85,247,0.12)_35%,rgba(249,115,22,0.1)_70%,transparent_100%)] blur-xl sm:blur-2xl scale-110 sm:scale-125" />
+      <div className="relative flex gap-3 sm:gap-6 md:gap-8 lg:gap-10" role="img" aria-label="Animated faces illustration">
 
-  <div className="relative flex gap-4" role="img" aria-label="Animated faces illustration">
+        {/* === Glasses Face === */}
+        <svg
+          viewBox="0 0 200 200"
+          className="w-20 sm:w-32 md:w-36 lg:w-40 h-20 sm:h-32 md:h-36 lg:h-40"
+          aria-hidden="true"
+        >
+          <style>{`
+            @keyframes glance {0%,100% { transform: translateX(0); }15% { transform: translateX(-6px); }35% { transform: translateX(6px); }55% { transform: translateX(-3px); }75% { transform: translateX(3px); }}
+            @keyframes blinkOnce {0% { transform: scaleY(1); }50% { transform: scaleY(0.1); }100% { transform: scaleY(1); }}
+            @keyframes blinkRepeat {0%,96% { transform: scaleY(1); }97%,98% { transform: scaleY(0.1); }99%,100% { transform: scaleY(1); }}
+            @keyframes dropGlasses {to { opacity: 1; transform: translateY(0); }}
+            @keyframes noseLift {to { transform: translateY(-4px); }}
+            @keyframes mouthShift {30% { transform: translateY(6px); }100% { transform: translateY(0); }}
+          `}</style>
+          <path 
+            d="M60,70 Q100,10 140,70 T130,150 Q100,190 70,150 T60,70 Z" 
+            stroke="#ffffff33" 
+            strokeWidth="2" 
+            fill="#ffffff" 
+          />
+          <circle cx="72" cy="80" r="6" fill="#F97316" style={{
+            animation: `glance 1.6s ease-in-out forwards, blinkOnce 0.6s ease 2.6s forwards`,
+            transformOrigin: "center"
+          }} />
+          <circle cx="128" cy="80" r="6" fill="#3B82F6" style={{
+            animation: `glance 1.6s ease-in-out forwards, blinkOnce 0.6s ease 2.6s forwards, blinkRepeat 5s ease-in-out 3s infinite`,
+            transformOrigin: "center"
+          }} />
+          <line x1="100" y1="80" x2="100" y2="120" stroke="#3B82F6" strokeWidth="4" strokeLinecap="round" style={{ animation: 'noseLift 0.6s ease 2.4s forwards' }} />
+          <circle cx="100" cy="138" r="6" fill="#FACC15" style={{ animation: 'mouthShift 1.2s ease-in-out forwards' }} />
+          <g style={{
+            opacity: 0,
+            transform: 'translateY(-40px)',
+            animation: 'dropGlasses 0.6s ease-out 1.8s forwards'
+          }}>
+            <circle cx="72" cy="80" r="15" stroke="#F97316" strokeWidth="4" fill="none" />
+            <circle cx="128" cy="80" r="15" stroke="#F97316" strokeWidth="4" fill="none" />
+            <line x1="87" y1="80" x2="113" y2="80" stroke="#F97316" strokeWidth="4" />
+          </g>
+        </svg>
 
-    {/* Glasses Face */}
-    <svg
-      viewBox="0 0 200 200"
-      className="w-32 h-32 md:w-36 md:h-36 lg:w-40 lg:h-40"
-      aria-hidden="true"
-    >
-      <style>{`
-        @keyframes glance {0%,100% { transform: translateX(0); }15% { transform: translateX(-6px); }35% { transform: translateX(6px); }55% { transform: translateX(-3px); }75% { transform: translateX(3px); }}
-        @keyframes blinkOnce {0% { transform: scaleY(1); }50% { transform: scaleY(0.1); }100% { transform: scaleY(1); }}
-        @keyframes blinkRepeat {0%,96% { transform: scaleY(1); }97%,98% { transform: scaleY(0.1); }99%,100% { transform: scaleY(1); }}
-        @keyframes dropGlasses {to { opacity: 1; transform: translateY(0); }}
-        @keyframes noseLift {to { transform: translateY(-4px); }}
-        @keyframes mouthShift {30% { transform: translateY(6px); }100% { transform: translateY(0); }}
-      `}</style>
-      <path 
-        d="M60,70 Q100,10 140,70 T130,150 Q100,190 70,150 T60,70 Z" 
-        stroke="#ffffff33" 
-        strokeWidth="2" 
-        fill="#ffffff" 
-      />
-      <circle cx="72" cy="80" r="6" fill="#F97316" style={{
-        animation: `glance 1.6s ease-in-out forwards, blinkOnce 0.6s ease 2.6s forwards`,
-        transformOrigin: "center"
-      }} />
-      <circle cx="128" cy="80" r="6" fill="#3B82F6" style={{
-        animation: `glance 1.6s ease-in-out forwards, blinkOnce 0.6s ease 2.6s forwards, blinkRepeat 5s ease-in-out 3s infinite`,
-        transformOrigin: "center"
-      }} />
-      <line x1="100" y1="80" x2="100" y2="120" stroke="#3B82F6" strokeWidth="4" strokeLinecap="round" style={{ animation: 'noseLift 0.6s ease 2.4s forwards' }} />
-      <circle cx="100" cy="138" r="6" fill="#FACC15" style={{ animation: 'mouthShift 1.2s ease-in-out forwards' }} />
-      <g style={{
-        opacity: 0,
-        transform: 'translateY(-40px)',
-        animation: 'dropGlasses 0.6s ease-out 1.8s forwards'
-      }}>
-        <circle cx="72" cy="80" r="15" stroke="#F97316" strokeWidth="4" fill="none" />
-        <circle cx="128" cy="80" r="15" stroke="#F97316" strokeWidth="4" fill="none" />
-        <line x1="87" y1="80" x2="113" y2="80" stroke="#F97316" strokeWidth="4" />
-      </g>
-    </svg>
+        {/* === Headphone Face === */}
+        <svg
+          viewBox="0 0 200 200"
+          className="w-20 sm:w-32 md:w-36 lg:w-40 h-20 sm:h-32 md:h-36 lg:h-40"
+          aria-hidden="true"
+        >
+          <style>{`
+            @keyframes headLean {0%{transform:rotate(0);}30%{transform:rotate(-3deg);}60%{transform:rotate(1.5deg);}100%{transform:rotate(0);}}
+            @keyframes mouthSpeak {0%,100%{transform:scaleY(1);}50%{transform:scaleY(1.1);}}
+            @keyframes micWave {0%,100%{transform:rotate(0);}50%{transform:rotate(3deg);}}
+          `}</style>
+          <g style={{ animation: 'headLean 1s ease-in-out forwards', transformOrigin: 'center' }}>
+            <path 
+              d="M60,70 Q100,10 140,70 T130,150 Q100,190 70,150 T60,70 Z" 
+              stroke="#ffffff33" 
+              strokeWidth="2" 
+              fill="#ffffff" 
+            />
+            <circle cx="72" cy="80" r="6" fill="#F97316" />
+            <circle cx="128" cy="80" r="6" fill="#3B82F6" />
+            <line x1="100" y1="80" x2="100" y2="120" stroke="#3B82F6" strokeWidth="4" strokeLinecap="round" />
+            <circle cx="100" cy="135" r="6" fill="#FACC15" style={{ animation: 'mouthSpeak 0.5s ease-in-out 1.8s infinite', transformOrigin: 'center' }} />
+            <path d="M60 40 Q100 0 140 40" stroke="#3B82F6" strokeWidth="4" fill="none" />
+            <ellipse cx="150" cy="80" rx="12" ry="20" fill="#3B82F6" stroke="#3B82F6" strokeWidth="4" />
+            <g style={{ animation: 'micWave 1.8s ease-in-out 1.4s infinite', transformOrigin: '140px 120px' }}>
+              <path d="M150 110 Q140 125 125 130" stroke="#3B82F6" strokeWidth="3" fill="none" />
+              <circle cx="125" cy="130" r="6" fill="#3B82F6" stroke="#3B82F6" strokeWidth="2" />
+            </g>
+          </g>
+        </svg>
 
-    {/* Headphone Face */}
-    <svg
-      viewBox="0 0 200 200"
-      className="w-32 h-32 md:w-36 md:h-36 lg:w-40 lg:h-40"
-      aria-hidden="true"
-    >
-      <style>{`
-        @keyframes headLean {0%{transform:rotate(0);}30%{transform:rotate(-3deg);}60%{transform:rotate(1.5deg);}100%{transform:rotate(0);}}
-        @keyframes mouthSpeak {0%,100%{transform:scaleY(1);}50%{transform:scaleY(1.1);}}
-        @keyframes micWave {0%,100%{transform:rotate(0);}50%{transform:rotate(3deg);}}
-      `}</style>
-      <g style={{ animation: 'headLean 1s ease-in-out forwards', transformOrigin: 'center' }}>
-        <path 
-          d="M60,70 Q100,10 140,70 T130,150 Q100,190 70,150 T60,70 Z" 
-          stroke="#ffffff33" 
-          strokeWidth="2" 
-          fill="#ffffff" 
-        />
-        <circle cx="72" cy="80" r="6" fill="#F97316" />
-        <circle cx="128" cy="80" r="6" fill="#3B82F6" />
-        <line x1="100" y1="80" x2="100" y2="120" stroke="#3B82F6" strokeWidth="4" strokeLinecap="round" />
-        <circle cx="100" cy="135" r="6" fill="#FACC15" style={{ animation: 'mouthSpeak 0.5s ease-in-out 1.8s infinite', transformOrigin: 'center' }} />
-        <path d="M60 40 Q100 0 140 40" stroke="#3B82F6" strokeWidth="4" fill="none" />
-        <ellipse cx="150" cy="80" rx="12" ry="20" fill="#3B82F6" stroke="#3B82F6" strokeWidth="4" />
-        <g style={{ animation: 'micWave 1.8s ease-in-out 1.4s infinite', transformOrigin: '140px 120px' }}>
-          <path d="M150 110 Q140 125 125 130" stroke="#3B82F6" strokeWidth="3" fill="none" />
-          <circle cx="125" cy="130" r="6" fill="#3B82F6" stroke="#3B82F6" strokeWidth="2" />
-        </g>
-      </g>
-    </svg>
-
-    {/* Sensor Face */}
-    <svg
-      viewBox="0 0 200 200"
-      className="w-32 h-32 md:w-36 md:h-36 lg:w-40 lg:h-40"
-      aria-hidden="true"
-    >
-      <style>{`
-        @keyframes glanceAround {0%,100%{transform:translateX(0);}33%{transform:translateX(-4px);}66%{transform:translateX(4px);}}
-      `}</style>
-      <path 
-        d="M60,70 Q100,10 140,70 T130,150 Q100,190 70,150 T60,70 Z" 
-        stroke="#ffffff33" 
-        strokeWidth="2" 
-        fill="#ffffff" 
-      />
-      <circle cx="72" cy="80" r="6" fill="#F97316" style={{ animation: 'glanceAround 3s ease-in-out infinite', transformOrigin: 'center' }} />
-      <circle cx="128" cy="80" r="6" fill="#3B82F6" style={{ animation: 'glanceAround 3s ease-in-out infinite', transformOrigin: 'center' }} />
-      <line x1="100" y1="80" x2="100" y2="120" stroke="#3B82F6" strokeWidth="4" strokeLinecap="round" />
-      <circle cx="100" cy="135" r="6" fill="#FACC15" />
-    </svg>
-
-  </div>
-</div>
+        {/* === Sensor Face === */}
+        <svg
+          viewBox="0 0 200 200"
+          className="w-20 sm:w-32 md:w-36 lg:w-40 h-20 sm:h-32 md:h-36 lg:h-40"
+          aria-hidden="true"
+        >
+          <style>{`
+            @keyframes glanceAround {0%,100%{transform:translateX(0);}33%{transform:translateX(-4px);}66%{transform:translateX(4px);}}
+          `}</style>
+          <path 
+            d="M60,70 Q100,10 140,70 T130,150 Q100,190 70,150 T60,70 Z" 
+            stroke="#ffffff33" 
+            strokeWidth="2" 
+            fill="#ffffff" 
+          />
+          <circle cx="72" cy="80" r="6" fill="#F97316" style={{ animation: 'glanceAround 3s ease-in-out infinite', transformOrigin: 'center' }} />
+          <circle cx="128" cy="80" r="6" fill="#3B82F6" style={{ animation: 'glanceAround 3s ease-in-out infinite', transformOrigin: 'center' }} />
+          <line x1="100" y1="80" x2="100" y2="120" stroke="#3B82F6" strokeWidth="4" strokeLinecap="round" />
+          <circle cx="100" cy="135" r="6" fill="#FACC15" />
+        </svg>
 
       </div>
     </div>
@@ -206,30 +196,28 @@ export default function Home() {
       transition={{ duration: 0.8, delay: 0.4 }}
       className="order-2 lg:order-1 text-center lg:text-left"
     >
-      <h1 className="text-5xl md:text-6xl font-extrabold mb-6 text-white leading-tight tracking-tight">
-       <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-orange-400 text-transparent bg-clip-text">
-  Betazu
-</span>
-{" "}
+      <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-4 sm:mb-6 md:mb-6 text-white leading-tight tracking-tight">
+        <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-orange-400 text-transparent bg-clip-text">
+          Betazu
+        </span>{" "}
         – AI + Web for Bold Founders
       </h1>
 
-      <p className="text-lg md:text-xl mb-10 text-gray-400 max-w-xl mx-auto lg:mx-0">
-        Build smarter. Launch faster. <br />
+      <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 md:mb-10 text-gray-400 max-w-xl mx-auto lg:mx-0">
+        Build smarter. Launch faster. <br className="hidden sm:block" />
         Custom AI tools and Next.js websites crafted by an Actor‑turned‑AI Entrepreneur for founders & creators.
       </p>
 
-      <div className="flex justify-center lg:justify-start gap-4">
+      <div className="flex flex-wrap justify-center lg:justify-start gap-3 sm:gap-4">
         <Link
           href="/startbetazufree"
-         className="rounded-xl bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 px-6 py-3 text-white font-semibold shadow-xl hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]"
-
+          className="rounded-xl bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 px-5 py-2.5 sm:px-6 sm:py-3 text-white font-semibold shadow-xl hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]"
         >
           Start Betazu Free
         </Link>
         <Link
           href="/demo"
-          className="rounded-xl border border-white/10 px-6 py-3 text-gray-300 hover:bg-white/10 hover:backdrop-blur-md transition-colors"
+          className="rounded-xl border border-white/10 px-5 py-2.5 sm:px-6 sm:py-3 text-gray-300 hover:bg-white/10 hover:backdrop-blur-md transition-colors"
         >
           Live Demo
         </Link>
@@ -239,10 +227,11 @@ export default function Home() {
 </section>
 
 
+
         {/* ================= FEATURES ================= */}
 <section className="py-20 px-6 md:px-12 bg-gradient-to-tr from-neutral-950 via-neutral-900 to-neutral-800">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-4xl font-extrabold text-center text-white mb-16">
+            <h2 className="text-3xl font-extrabold text-center text-white mb-16">
               What You Get
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
@@ -324,7 +313,7 @@ export default function Home() {
  <div className="bg-black text-white relative overflow-hidden">
       {/* Hero */}
       <section className="relative py-24 text-center">
-        <h2 className="text-4xl font-extrabold text-center text-white mb-6">What We Do</h2>
+        <h2 className="text-3xl font-extrabold text-center text-white mb-6">What We Do</h2>
         <p className="max-w-2xl mx-auto text-lg text-gray-300">
           We design, develop, and deliver digital solutions that make your business future-ready.
         </p>
@@ -386,7 +375,7 @@ export default function Home() {
   <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-blue-500 opacity-20 blur-[120px] rounded-full animate-pulse"></div>
 
   <div className="max-w-5xl mx-auto text-center">
-    <h2 className="text-4xl font-extrabold text-white mb-20">Launch in 3 Steps</h2>
+    <h2 className="text-3xl font-extrabold text-white mb-20">Launch in 3 Steps</h2>
 
     <div className="relative flex flex-col gap-20">
       {[
@@ -464,13 +453,13 @@ export default function Home() {
       <Image
         src="/clients/skmanpowersolutions.png" // Make sure this path is correct
         alt="Client Logo"
-        width={100}
-        height={100}
+        width={80}
+        height={80}
         className="object-contain rounded-full border border-white/20 shadow-md"
       />
     </div>
 
-    <blockquote className="text-2xl md:text-3xl font-semibold">
+    <blockquote className="text-xl md:text-3xl font-semibold">
       “The new website transformed our online presence.
       Thanks to this web design service, SK Manpower Solutions
       now stands out as one of the best staffing service providers
@@ -483,7 +472,7 @@ export default function Home() {
 {/* ================= FAQ ================= */}
 <section className="py-24 px-6 md:px-12 bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-800">
   <div className="max-w-4xl mx-auto">
-    <h2 className="text-4xl font-extrabold text-center text-white mb-16">
+    <h2 className="text-3xl font-extrabold text-center text-white mb-16">
       Frequently Asked Questions
     </h2>
 

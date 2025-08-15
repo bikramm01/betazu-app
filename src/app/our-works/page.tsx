@@ -36,7 +36,7 @@ export default function OurWorksPage() {
     <div className="bg-black text-white relative overflow-hidden">
       {/* Hero */}
       <section className="relative py-20 text-center px-4">
-        <h1 className="text-5xl md:text-6xl font-extrabold mb-4">Our Best Works</h1>
+        <h1 className="text-4xl md:text-6xl font-extrabold mb-4">Our Best Works</h1>
         <p className="max-w-2xl mx-auto text-lg text-gray-300">
           We have successfully delivered impactful solutions and are continuously
           building more for our clients worldwide.

@@ -45,7 +45,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white py-16 px-6">
+    <div className="min-h-screen bg-black text-white py-20 px-6">
       <div className="max-w-6xl mx-auto space-y-12">
         {/* Heading */}
         <div className="text-center max-w-3xl mx-auto space-y-4">

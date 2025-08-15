@@ -43,7 +43,7 @@ export default function FreeStartPage() {
       </svg>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center px-6 py-20 min-h-screen">
+      <div className="relative z-10 flex flex-col items-center px-6 py-10 min-h-screen">
         {/* Hero Section */}
         <motion.section
           className="text-center max-w-3xl mt-20"

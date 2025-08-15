@@ -24,7 +24,7 @@ export default function FreeAuditPage() {
       </svg>
 
       {/* Page Content */}
-      <div className="relative z-10 flex flex-col items-center px-6 py-20">
+      <div className="relative z-10 flex flex-col items-center px-6 py-25">
         {/* Heading */}
         <motion.h1
           className="text-4xl md:text-6xl font-extrabold mb-6 text-center"
