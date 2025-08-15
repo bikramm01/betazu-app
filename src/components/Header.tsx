@@ -76,12 +76,13 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
-          menuOpen || scrolled
-            ? "bg-blue/60 backdrop-blur-md shadow-md"
-            : "bg-transparent backdrop-blur-lg"
-        }`}
-      >
+  className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
+   menuOpen || scrolled
+  ? "bg-blue/60 backdrop-blur-md shadow-md"
+  : "bg-transparent backdrop-blur-md"
+
+  }`}
+>
         <div className="max-w-9xl mx-auto px-4 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
@@ -153,10 +154,10 @@ export default function Header() {
               <Search className="w-5 h-5 text-white hover:text-orange-400" />
             </button>
 
-            {/* Claim Free Audit (always visible) */}
+            {/* Claim Free Audit - only show on desktop */}
             <Link
               href="/free-audit"
-              className="px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold shadow-xl hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition duration-300 ease-in-out cursor-pointer"
+              className="hidden md:inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold shadow-xl hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition duration-300 ease-in-out cursor-pointer"
             >
               Claim Free Audit
             </Link>
@@ -191,7 +192,7 @@ export default function Header() {
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
         style={{
-          transformOrigin: "top right", // makes it feel like it opens from the hamburger
+          transformOrigin: "top right",
           borderTopLeftRadius: "12px",
         }}
       >
@@ -228,41 +229,49 @@ export default function Header() {
           ))}
           <Link href="/our-works" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Our Works</Link>
           <Link href="/contact" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Contact Us</Link>
+
+          {/* Claim Free Audit - Mobile */}
+          <Link
+            href="/free-audit"
+            onClick={() => setMenuOpen(false)}
+            className="mt-6 px-4 py-2 rounded-full text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold text-center shadow-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition duration-300 ease-in-out"
+          >
+            Claim Free Audit
+          </Link>
         </nav>
       </div>
 
-     {/* Search Overlay */}
-{showSearch && (
-  <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[999]">
-    <div className="relative w-[90%] max-w-sm sm:max-w-2xl px-4 sm:px-6">
-      <button
-        onClick={() => setShowSearch(false)}
-        className="absolute -top-8 right-2 text-gray-300 text-lg sm:text-xl hover:text-red-500"
-        aria-label="Close search"
-      >
-        ✕
-      </button>
-      <div className="relative">
-        <input
-          autoFocus
-          type="text"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          className="w-full text-base sm:text-2xl px-4 sm:px-6 py-2 sm:py-4 rounded-full bg-white text-black shadow-lg pr-12 sm:pr-14"
-          placeholder={placeholderText}
-        />
-        <button
-          onClick={handleSearch}
-          className="absolute top-1/2 right-3 sm:right-4 -translate-y-1/2 text-gray-700 hover:text-blue-600"
-          aria-label="Search"
-        >
-          <Search className="h-5 w-5 sm:h-6 sm:w-6" />
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
+      {/* Search Overlay */}
+      {showSearch && (
+        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[999]">
+          <div className="relative w-[90%] max-w-sm sm:max-w-2xl px-4 sm:px-6">
+            <button
+              onClick={() => setShowSearch(false)}
+              className="absolute -top-8 right-2 text-gray-300 text-lg sm:text-xl hover:text-red-500"
+              aria-label="Close search"
+            >
+              ✕
+            </button>
+            <div className="relative">
+              <input
+                autoFocus
+                type="text"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                className="w-full text-base sm:text-2xl px-4 sm:px-6 py-2 sm:py-4 rounded-full bg-white text-black shadow-lg pr-12 sm:pr-14"
+                placeholder={placeholderText}
+              />
+              <button
+                onClick={handleSearch}
+                className="absolute top-1/2 right-3 sm:right-4 -translate-y-1/2 text-gray-700 hover:text-blue-600"
+                aria-label="Search"
+              >
+                <Search className="h-5 w-5 sm:h-6 sm:w-6" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
