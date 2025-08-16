@@ -79,7 +79,7 @@ export default function Header() {
     <>
       {/* Header */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
           menuOpen || scrolled
             ? "bg-blue/60 backdrop-blur-md shadow-md"
             : "bg-transparent backdrop-blur-md"
