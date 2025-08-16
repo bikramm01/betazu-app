@@ -1,261 +1,176 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Search } from "lucide-react";
-
-const placeholders = [
-  "Search on Betazu AI...",
-  "Type anything...",
-  "Explore instantly...",
-  "Your next idea starts here...",
-];
+import { Menu, X, Search } from "lucide-react";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [searchText, setSearchText] = useState("");
-  const [placeholderText, setPlaceholderText] = useState("");
-  const [servicesOpen, setServicesOpen] = useState(false);
-  const servicesRef = useRef<HTMLDivElement | null>(null);
 
-  // Close services dropdown on outside click
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) {
-        setServicesOpen(false);
-      }
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // Scroll effect
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Typing placeholder effect
-  useEffect(() => {
-    let placeholderIndex = 0;
-    let charIndex = 0;
-    let typing = true;
-
-    const typeInterval = setInterval(() => {
-      const currentText = placeholders[placeholderIndex];
-      if (typing) {
-        if (charIndex < currentText.length) {
-          setPlaceholderText(currentText.slice(0, charIndex + 1));
-          charIndex++;
-        } else {
-          typing = false;
-        }
-      } else {
-        if (charIndex > 0) {
-          setPlaceholderText(currentText.slice(0, charIndex - 1));
-          charIndex--;
-        } else {
-          typing = true;
-          placeholderIndex = (placeholderIndex + 1) % placeholders.length;
-        }
-      }
-    }, 100);
-
-    return () => clearInterval(typeInterval);
-  }, []);
-
-  const handleSearch = () => {
-    if (searchText.trim()) {
-      console.log("Searching for:", searchText);
-    }
-  };
-
   return (
     <>
-      {/* Header */}
+      {/* HEADER */}
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
-          menuOpen || scrolled
-            ? "bg-[#0a0a0a]/80 backdrop-blur-md shadow-md"
-            : "bg-transparent"
+        className={`fixed top-0 left-0 w-full z-50 transition-all ${
+          scrolled ? "bg-black/70 backdrop-blur-lg" : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <Image src="/logo.png" alt="Betazu Logo" width={32} height={32} />
-            <span className="text-lg sm:text-xl font-bold text-white">Betazu</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between overflow-x-hidden">
+          {/* LOGO */}
+          <Link
+            href="/"
+            className="text-xl sm:text-2xl font-bold text-transparent bg-clip-text 
+            bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 
+            animate-[gradient_5s_linear_infinite] whitespace-nowrap"
+          >
+            Betazu
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
+          {/* NAV LINKS (Desktop) */}
+          <nav className="hidden md:flex space-x-8">
             <Link
-              href="/betazuai"
-              className="relative font-semibold text-transparent bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 to-blue-500 bg-clip-text animate-[gradient_3s_linear_infinite]"
+              href="/"
+              className="text-gray-300 hover:text-white transition-colors"
             >
-              Betazu AI
+              Home
             </Link>
-            <Link href="/" className="hover:text-blue-400">Home</Link>
 
-            {/* Services Dropdown */}
-            <div className="relative" ref={servicesRef}>
+            {/* Dropdown */}
+            <div className="relative group">
+              <button className="text-gray-300 hover:text-white transition-colors">
+                What We Do
+              </button>
               <div
-                className="flex items-center gap-1 hover:text-blue-400 cursor-pointer"
-                onClick={() => setServicesOpen(prev => !prev)}
-                aria-expanded={servicesOpen}
+                className="absolute top-8 left-0 w-52 max-w-[90vw] bg-black/80 backdrop-blur-lg 
+                rounded-lg shadow-lg opacity-0 group-hover:opacity-100 
+                invisible group-hover:visible transition-all"
               >
-                <span className="font-medium">What We Do</span>
-                <svg
-                  className={`w-4 h-4 transition-transform ${servicesOpen ? "rotate-180" : ""}`}
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
+                <Link
+                  href="/services"
+                  className="block px-4 py-2 text-gray-300 hover:text-white"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
+                  Services
+                </Link>
+                <Link
+                  href="/products"
+                  className="block px-4 py-2 text-gray-300 hover:text-white"
+                >
+                  Products
+                </Link>
               </div>
-              {servicesOpen && (
-                <div className="absolute top-8 left-0 bg-[#1a1a1a] text-white rounded-xl shadow-lg py-3 px-4 w-52 animate-fade-in z-50">
-                  {[
-                    { href: "/#ai-tools", label: "AI Tools" },
-                    { href: "/#websites", label: "Websites" },
-                    { href: "/#automation", label: "Automation" },
-                  ].map(({ href, label }) => (
-                    <Link
-                      key={href}
-                      href={href}
-                      onClick={() => setServicesOpen(false)}
-                      className="block py-2 px-3 rounded-lg hover:bg-blue-500/10 hover:text-orange-400"
-                    >
-                      {label}
-                    </Link>
-                  ))}
-                </div>
-              )}
             </div>
 
-            <Link href="/our-works" className="hover:text-blue-400">Our Works</Link>
-            <Link href="/contact" className="hover:text-blue-400">Contact Us</Link>
-          </div>
+            <Link
+              href="/about"
+              className="text-gray-300 hover:text-white transition-colors"
+            >
+              About
+            </Link>
+            <Link
+              href="/contact"
+              className="text-gray-300 hover:text-white transition-colors"
+            >
+              Contact
+            </Link>
+          </nav>
 
-          {/* Right Side */}
-          <div className="flex items-center gap-3">
-            {/* Search button */}
+          {/* Right Side (Search + Menu) */}
+          <div className="flex items-center space-x-4">
             <button
               onClick={() => setShowSearch(true)}
-              className="p-1.5"
-              aria-label="Open search"
+              className="text-gray-300 hover:text-white"
             >
-              <Search className="w-5 h-5 text-white hover:text-orange-400" />
+              <Search className="w-5 h-5" />
             </button>
 
-            {/* Claim Free Audit - Desktop */}
-            <Link
-              href="/free-audit"
-              className="hidden md:inline-block px-4 py-1.5 rounded-full text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold shadow-lg hover:scale-105 transition"
-            >
-              Claim Free Audit
-            </Link>
-
-            {/* Mobile Menu Toggle */}
             <button
-              onClick={() => setMenuOpen(prev => !prev)}
-              className="md:hidden p-1.5 text-gray-200 focus:outline-none z-[101]"
-              aria-label="Toggle menu"
+              onClick={() => setMenuOpen(true)}
+              className="text-gray-300 hover:text-white md:hidden"
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                viewBox="0 0 24 24"
-              >
-                {menuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
+              <Menu className="w-6 h-6" />
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile Drawer */}
+      {/* MOBILE MENU */}
       <div
-        className={`fixed top-0 right-0 h-screen w-[80%] max-w-xs bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[100] ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed inset-0 bg-black/80 backdrop-blur-lg z-40 transform transition-transform duration-300 
+        ${menuOpen ? "translate-x-0" : "translate-x-full"} md:hidden overflow-x-hidden`}
       >
-        <button
-          onClick={() => setMenuOpen(false)}
-          className="absolute top-4 right-4 text-gray-300 hover:text-red-500 focus:outline-none"
-          aria-label="Close menu"
-        >
-          ✕
-        </button>
-
-        <nav className="flex flex-col gap-5 text-lg font-medium px-6 pt-20 pb-6 overflow-y-auto">
-          <Link href="/betazuai" onClick={() => setMenuOpen(false)} className="relative font-semibold text-transparent bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 to-blue-500 bg-clip-text animate-[gradient_3s_linear_infinite]">
-            Betazu AI
-          </Link>
-          <Link href="/" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Home</Link>
-          {[
-            { href: "/#ai-tools", label: "AI Tools" },
-            { href: "/#websites", label: "Websites" },
-            { href: "/#automation", label: "Automation" },
-          ].map(({ href, label }) => (
-            <Link key={href} href={href} onClick={() => setMenuOpen(false)} className="hover:text-blue-400">
-              {label}
-            </Link>
-          ))}
-          <Link href="/our-works" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Our Works</Link>
-          <Link href="/contact" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Contact Us</Link>
-
-          {/* Claim Free Audit - Mobile */}
-          <Link
-            href="/free-audit"
+        <div className="flex justify-end p-4">
+          <button
             onClick={() => setMenuOpen(false)}
-            className="mt-6 px-4 py-2 rounded-full text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold text-center shadow-lg hover:scale-105 transition"
+            className="text-gray-300 hover:text-white"
           >
-            Claim Free Audit
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+        <nav className="flex flex-col items-center space-y-6 mt-10">
+          <Link
+            href="/"
+            className="text-gray-300 hover:text-white text-lg"
+            onClick={() => setMenuOpen(false)}
+          >
+            Home
+          </Link>
+          <Link
+            href="/services"
+            className="text-gray-300 hover:text-white text-lg"
+            onClick={() => setMenuOpen(false)}
+          >
+            Services
+          </Link>
+          <Link
+            href="/products"
+            className="text-gray-300 hover:text-white text-lg"
+            onClick={() => setMenuOpen(false)}
+          >
+            Products
+          </Link>
+          <Link
+            href="/about"
+            className="text-gray-300 hover:text-white text-lg"
+            onClick={() => setMenuOpen(false)}
+          >
+            About
+          </Link>
+          <Link
+            href="/contact"
+            className="text-gray-300 hover:text-white text-lg"
+            onClick={() => setMenuOpen(false)}
+          >
+            Contact
           </Link>
         </nav>
       </div>
 
-      {/* Search Overlay */}
+      {/* SEARCH OVERLAY */}
       {showSearch && (
-        <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-[999]">
-          <div className="relative w-[90%] max-w-sm sm:max-w-2xl px-4 sm:px-6">
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 flex items-center justify-center p-4 overflow-x-hidden">
+          <div className="w-full max-w-lg">
+            <input
+              type="text"
+              placeholder="Search..."
+              autoFocus
+              className="w-full px-4 py-3 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none"
+            />
             <button
               onClick={() => setShowSearch(false)}
-              className="absolute -top-8 right-2 text-gray-300 text-xl hover:text-red-500"
-              aria-label="Close search"
+              className="absolute top-4 right-4 text-gray-400 hover:text-white"
             >
-              ✕
+              <X className="w-6 h-6" />
             </button>
-            <div className="relative">
-              <input
-                autoFocus
-                type="text"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                className="w-full text-lg sm:text-2xl px-6 py-3 sm:py-4 rounded-full bg-white text-black shadow-lg pr-14"
-                placeholder={placeholderText}
-              />
-              <button
-                onClick={handleSearch}
-                className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-700 hover:text-blue-600"
-                aria-label="Search"
-              >
-                <Search className="h-6 w-6" />
-              </button>
-            </div>
           </div>
         </div>
       )}
