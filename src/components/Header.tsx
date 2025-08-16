@@ -21,6 +21,7 @@ export default function Header() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const servicesRef = useRef<HTMLDivElement | null>(null);
 
+  // Close services dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) {
@@ -31,20 +32,20 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Scroll background effect
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Placeholder typing effect
   useEffect(() => {
     setPlaceholderText(placeholders[0]);
-  }, []);
-
-  useEffect(() => {
     let placeholderIndex = 0;
     let charIndex = 0;
     let typing = true;
+
     const typeInterval = setInterval(() => {
       const currentText = placeholders[placeholderIndex];
       if (typing) {
@@ -64,6 +65,7 @@ export default function Header() {
         }
       }
     }, 100);
+
     return () => clearInterval(typeInterval);
   }, []);
 
@@ -77,13 +79,13 @@ export default function Header() {
     <>
       {/* Header */}
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
+        className={`fixed top-0 left-0 w-full max-w-[100vw] overflow-hidden z-50 transition-colors duration-300 ${
           menuOpen || scrolled
             ? "bg-blue/60 backdrop-blur-md shadow-md"
             : "bg-transparent backdrop-blur-md"
         }`}
       >
-        {/* Keep header content inside same container as rest of sections */}
+        {/* Container */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
