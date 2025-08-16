@@ -192,8 +192,7 @@ export default function Header() {
         </div>
       </header>
 
-    
-{/* Overlay behind drawer */}
+    {/* Overlay */}
 {menuOpen && (
   <div
     onClick={() => setMenuOpen(false)}
@@ -201,14 +200,13 @@ export default function Header() {
   />
 )}
 
-      {/* Mobile Drawer */}
-  <div
-  className={`fixed top-0 right-0 h-screen w-[80%] sm:w-64 bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[100] ${
+{/* Mobile Drawer */}
+<div
+  className={`fixed top-0 right-0 h-screen w-full max-w-[100vw] bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[100] ${
     menuOpen ? "translate-x-0" : "translate-x-full"
   }`}
-  style={{ borderTopLeftRadius: "12px" }}
 >
-
+  {/* Close Button */}
   <button
     onClick={() => setMenuOpen(false)}
     className="absolute top-3 right-3 text-gray-300 hover:text-red-500 focus:outline-none"
@@ -217,20 +215,32 @@ export default function Header() {
     ✕
   </button>
 
+  {/* Nav */}
   <nav className="flex flex-col gap-5 text-lg font-medium px-6 pt-20 pb-6 overflow-y-auto">
-    <Link href="/betazuai" onClick={() => setMenuOpen(false)} className="relative font-semibold text-transparent bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 to-blue-500 bg-clip-text animate-gradient">
+    <Link
+      href="/betazuai"
+      onClick={() => setMenuOpen(false)}
+      className="relative font-semibold text-transparent bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 to-blue-500 bg-clip-text animate-gradient"
+    >
       Betazu AI
     </Link>
     <Link href="/" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Home</Link>
+
     {[
       { href: "/#ai-tools", label: "AI Tools" },
       { href: "/#websites", label: "Websites" },
       { href: "/#automation", label: "Automation" },
     ].map(({ href, label }) => (
-      <Link key={href} href={href} onClick={() => setMenuOpen(false)} className="hover:text-blue-400">
+      <Link
+        key={href}
+        href={href}
+        onClick={() => setMenuOpen(false)}
+        className="hover:text-blue-400"
+      >
         {label}
       </Link>
     ))}
+
     <Link href="/our-works" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Our Works</Link>
     <Link href="/contact" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Contact Us</Link>
 
