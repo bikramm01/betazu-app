@@ -24,21 +24,23 @@ export const metadata: Metadata = {
     "Betazu builds modern AI-powered and web-based solutions for ambitious founders.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} w-full h-full`}
-    >
-      <body className="antialiased flex flex-col min-h-screen w-full h-full m-0 p-0 bg-black text-white">
-        {/* Fixed header */}
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className="antialiased flex flex-col min-h-screen bg-black text-white m-0 p-0">
+        {/* Fixed full-width header */}
         <Header />
 
-        {/* Main content, full width, no side borders */}
+        {/* Main content full width, offset for fixed header */}
         <main className="flex-grow pt-16 w-full">
           {children}
         </main>
 
+        {/* Full-width footer */}
         <Footer />
       </body>
     </html>
