@@ -192,22 +192,19 @@ export default function Header() {
       </header>
 
       {/* Mobile Drawer */}
-      <div
-        className={`fixed top-0 right-0 h-screen w-[80%] max-w-xs bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[100] ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-        style={{
-          transformOrigin: "top right",
-          borderTopLeftRadius: "12px",
-        }}
-      >
-        <button
-          onClick={() => setMenuOpen(false)}
-          className="absolute top-4 right-4 text-gray-300 hover:text-red-500 focus:outline-none"
-          aria-label="Close menu"
-        >
-          ✕
-        </button>
+     <div
+  className={`fixed top-0 right-0 h-screen w-64 bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[100] ${
+    menuOpen ? "translate-x-0" : "translate-x-full"
+  }`}
+  style={{ borderTopLeftRadius: "12px" }}
+>
+  <button
+    onClick={() => setMenuOpen(false)}
+    className="absolute top-3 right-3 text-gray-300 hover:text-red-500 focus:outline-none"
+    aria-label="Close menu"
+  >
+    ✕
+  </button>
 
         <nav className="flex flex-col gap-5 text-lg font-medium px-6 pt-20 pb-6 overflow-y-auto">
           <Link href="/betazuai" onClick={() => setMenuOpen(false)} className="relative font-semibold text-transparent bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 to-blue-500 bg-clip-text animate-gradient">
