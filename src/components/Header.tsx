@@ -78,13 +78,14 @@ export default function Header() {
   return (
     <>
       {/* Header */}
-      <header
-        className={`fixed top-0 left-0 w-full max-w-[100vw] overflow-hidden z-50 transition-colors duration-300 ${
-          menuOpen || scrolled
-            ? "bg-blue/60 backdrop-blur-md shadow-md"
-            : "bg-transparent backdrop-blur-md"
-        }`}
-      >
+     <header
+  className={`fixed top-0 left-0 w-full max-w-[100vw] z-50 transition-colors duration-300 ${
+    menuOpen || scrolled
+      ? "bg-blue/60 backdrop-blur-md shadow-md"
+      : "bg-transparent backdrop-blur-md"
+  }`}
+>
+
         {/* Container */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
@@ -191,13 +192,23 @@ export default function Header() {
         </div>
       </header>
 
+    
+{/* Overlay behind drawer */}
+{menuOpen && (
+  <div
+    onClick={() => setMenuOpen(false)}
+    className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[90] transition-opacity"
+  />
+)}
+
       {/* Mobile Drawer */}
-    <div
+  <div
   className={`fixed top-0 right-0 h-screen w-[80%] sm:w-64 bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[100] ${
     menuOpen ? "translate-x-0" : "translate-x-full"
   }`}
   style={{ borderTopLeftRadius: "12px" }}
 >
+
   <button
     onClick={() => setMenuOpen(false)}
     className="absolute top-3 right-3 text-gray-300 hover:text-red-500 focus:outline-none"
