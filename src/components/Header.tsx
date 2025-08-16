@@ -8,47 +8,42 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-black text-white shadow-md">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        {/* Logo */}
-        <Link href="/" className="text-lg font-bold">
-          Betazu
-        </Link>
+    <header className="w-full max-w-[100vw] overflow-hidden fixed top-0 left-0 right-0 bg-white dark:bg-black z-50">
+  <div className="mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
+    {/* Logo */}
+    <div className="flex-shrink-0">Logo</div>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex gap-6">
-          <Link href="/">Home</Link>
-          <Link href="/about">About</Link>
-          <Link href="/services">Services</Link>
-          <Link href="/contact">Contact</Link>
-        </nav>
+    {/* Desktop Nav */}
+    <nav className="hidden md:flex space-x-6">Links</nav>
 
-        {/* Mobile menu button */}
+    {/* Mobile Menu Button */}
+    <button
+      className="md:hidden p-2 focus:outline-none"
+      onClick={() => setMenuOpen(!menuOpen)}
+    >
+      ☰
+    </button>
+  </div>
+
+  {/* Drawer (mobile menu) */}
+  {menuOpen && (
+    <div className="fixed inset-0 z-40 bg-black bg-opacity-50">
+      <div className="fixed top-0 right-0 h-full w-64 bg-white shadow-lg p-6">
         <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden p-2 focus:outline-none"
+          className="mb-4 p-2"
+          onClick={() => setMenuOpen(false)}
         >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          ✕
         </button>
+        <nav className="flex flex-col space-y-4">
+          <a href="#">Home</a>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+        </nav>
       </div>
+    </div>
+  )}
+</header>
 
-      {/* Mobile drawer */}
-      {menuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 z-40 flex flex-col items-center justify-center space-y-6 md:hidden">
-          <Link href="/" onClick={() => setMenuOpen(false)}>
-            Home
-          </Link>
-          <Link href="/about" onClick={() => setMenuOpen(false)}>
-            About
-          </Link>
-          <Link href="/services" onClick={() => setMenuOpen(false)}>
-            Services
-          </Link>
-          <Link href="/contact" onClick={() => setMenuOpen(false)}>
-            Contact
-          </Link>
-        </div>
-      )}
-    </header>
   );
 }
