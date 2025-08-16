@@ -75,15 +75,15 @@ export default function Header() {
 
   return (
     <>
+      {/* Header */}
       <header
-  className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
-   menuOpen || scrolled
-  ? "bg-blue/60 backdrop-blur-md shadow-md"
-  : "bg-transparent backdrop-blur-md"
-
-  }`}
->
-        <div className="max-w-9xl mx-auto px-4 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between">
+        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 overflow-x-hidden ${
+          menuOpen || scrolled
+            ? "bg-blue/60 backdrop-blur-md shadow-md"
+            : "bg-transparent backdrop-blur-md"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <Image src="/logo.png" alt="Betazu Logo" width={30} height={30} />
@@ -154,7 +154,7 @@ export default function Header() {
               <Search className="w-5 h-5 text-white hover:text-orange-400" />
             </button>
 
-            {/* Claim Free Audit - only show on desktop */}
+            {/* Claim Free Audit - only on desktop */}
             <Link
               href="/free-audit"
               className="hidden md:inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold shadow-xl hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition duration-300 ease-in-out cursor-pointer"
@@ -162,7 +162,7 @@ export default function Header() {
               Claim Free Audit
             </Link>
 
-            {/* Menu / Close Toggle */}
+            {/* Menu Toggle */}
             <button
               onClick={() => setMenuOpen(prev => !prev)}
               className="md:hidden p-1.5 text-gray-200 focus:outline-none z-[101]"
@@ -201,16 +201,7 @@ export default function Header() {
           className="absolute top-4 right-4 text-gray-300 hover:text-red-500 focus:outline-none"
           aria-label="Close menu"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          ✕
         </button>
 
         <nav className="flex flex-col gap-5 text-lg font-medium px-6 pt-20 pb-6 overflow-y-auto">
