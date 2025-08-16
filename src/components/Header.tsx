@@ -39,7 +39,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Placeholder typing effect
+  // Typing effect for placeholder
   useEffect(() => {
     setPlaceholderText(placeholders[0]);
     let placeholderIndex = 0;
@@ -77,15 +77,14 @@ export default function Header() {
 
   return (
     <>
-      {/* Header */}
+      {/* HEADER */}
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
+        className={`fixed top-0 left-0 w-full max-w-[100vw] z-50 transition-colors duration-300 ${
           menuOpen || scrolled
             ? "bg-blue/60 backdrop-blur-md shadow-md"
             : "bg-transparent backdrop-blur-md"
         }`}
       >
-        {/* Container */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
@@ -149,7 +148,7 @@ export default function Header() {
 
             {/* Right Side */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Search button */}
+              {/* Search */}
               <button
                 onClick={() => setShowSearch(true)}
                 className="p-1.5 sm:p-2"
@@ -158,18 +157,18 @@ export default function Header() {
                 <Search className="w-5 h-5 text-white hover:text-orange-400" />
               </button>
 
-              {/* Claim Free Audit - only on desktop */}
+              {/* Claim Free Audit (desktop) */}
               <Link
                 href="/free-audit"
-                className="hidden md:inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold shadow-xl hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition duration-300 ease-in-out cursor-pointer"
+                className="hidden md:inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold shadow-xl hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition"
               >
                 Claim Free Audit
               </Link>
 
-              {/* Menu Toggle */}
+              {/* Hamburger */}
               <button
                 onClick={() => setMenuOpen(prev => !prev)}
-                className="md:hidden p-1.5 text-gray-200 focus:outline-none z-[101]"
+                className="md:hidden p-1.5 text-gray-200 focus:outline-none z-[110]"
                 aria-label="Toggle menu"
               >
                 <svg
@@ -195,27 +194,27 @@ export default function Header() {
       {menuOpen && (
         <div
           onClick={() => setMenuOpen(false)}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[90] transition-opacity"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] transition-opacity"
         />
       )}
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer - now aligned with header */}
       <div
-        className={`fixed top-16 sm:top-20 right-0 h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)] w-full bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[100] ${
+        className={`fixed top-0 right-0 h-screen w-[80%] max-w-xs bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[120] ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Close Button */}
+        {/* Close */}
         <button
           onClick={() => setMenuOpen(false)}
-          className="absolute top-3 right-3 text-gray-300 hover:text-red-500 focus:outline-none"
+          className="absolute top-4 right-4 text-gray-300 hover:text-red-500 focus:outline-none"
           aria-label="Close menu"
         >
           ✕
         </button>
 
         {/* Nav */}
-        <nav className="flex flex-col gap-5 text-lg font-medium px-6 pt-12 pb-6 overflow-y-auto">
+        <nav className="flex flex-col gap-5 text-lg font-medium px-6 pt-20 pb-6 overflow-y-auto">
           <Link
             href="/betazuai"
             onClick={() => setMenuOpen(false)}
@@ -224,7 +223,6 @@ export default function Header() {
             Betazu AI
           </Link>
           <Link href="/" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Home</Link>
-
           {[
             { href: "/#ai-tools", label: "AI Tools" },
             { href: "/#websites", label: "Websites" },
@@ -239,7 +237,6 @@ export default function Header() {
               {label}
             </Link>
           ))}
-
           <Link href="/our-works" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Our Works</Link>
           <Link href="/contact" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Contact Us</Link>
 
@@ -247,7 +244,7 @@ export default function Header() {
           <Link
             href="/free-audit"
             onClick={() => setMenuOpen(false)}
-            className="mt-6 px-4 py-2 rounded-full text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold text-center shadow-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition duration-300 ease-in-out"
+            className="mt-6 px-4 py-2 rounded-full text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold text-center shadow-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition"
           >
             Claim Free Audit
           </Link>
@@ -256,7 +253,7 @@ export default function Header() {
 
       {/* Search Overlay */}
       {showSearch && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[999]">
+        <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-[999]">
           <div className="relative w-[90%] max-w-sm sm:max-w-2xl px-4 sm:px-6">
             <button
               onClick={() => setShowSearch(false)}
