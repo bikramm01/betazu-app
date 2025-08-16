@@ -39,7 +39,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // ESC key closes search
+  // ESC key closes search + menu
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -52,7 +52,7 @@ export default function Header() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // Placeholder animation
+  // Typing animation
   useEffect(() => {
     setPlaceholderText(placeholders[0]);
   }, []);
@@ -91,22 +91,22 @@ export default function Header() {
 
   return (
     <>
-      {/* Header */}
+      {/* Fixed Header */}
       <header
         className={`fixed top-0 left-0 w-full z-[90] transition-colors duration-300 ${
           menuOpen || scrolled
-            ? "bg-blue/60 backdrop-blur-md shadow-md"
+            ? "bg-blue/70 backdrop-blur-md shadow-md"
             : "bg-transparent backdrop-blur-md"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between">
+        <div className="w-full px-4 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between max-w-7xl mx-auto">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <Image src="/logo.png" alt="Betazu Logo" width={30} height={30} />
             <span className="text-lg sm:text-xl font-bold text-white">Betazu</span>
           </Link>
 
-          {/* Desktop Menu */}
+          {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
             <Link
               href="/betazuai"
@@ -117,12 +117,10 @@ export default function Header() {
             <Link href="/" className="hover:text-blue-400">Home</Link>
 
             {/* Services Dropdown */}
-            <div className="relative dropdown" ref={servicesRef}>
-              <div
-                className="flex items-center gap-1 hover:text-blue-400 cursor-pointer"
-                onMouseEnter={() => setServicesOpen(true)}
-                onClick={() => setServicesOpen(prev => !prev)}
-                aria-expanded={servicesOpen}
+            <div className="relative" ref={servicesRef}>
+              <button
+                onClick={() => setServicesOpen((prev) => !prev)}
+                className="flex items-center gap-1 hover:text-blue-400"
               >
                 <span className="font-medium">What We Do</span>
                 <svg
@@ -134,9 +132,9 @@ export default function Header() {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
-              </div>
+              </button>
               {servicesOpen && (
-                <div className="absolute top-8 left-0 bg-[#1a1a1a] text-white rounded-xl shadow-lg py-3 px-4 w-52 animate-fade-in z-[95]">
+                <div className="absolute top-8 left-0 bg-[#1a1a1a] text-white rounded-xl shadow-lg py-3 px-4 w-52 z-[95]">
                   {[
                     { href: "/#ai-tools", label: "AI Tools" },
                     { href: "/#websites", label: "Websites" },
@@ -161,7 +159,7 @@ export default function Header() {
 
           {/* Right Side */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Search button */}
+            {/* Search */}
             <button
               onClick={() => setShowSearch(true)}
               className="p-1.5 sm:p-2"
@@ -170,18 +168,18 @@ export default function Header() {
               <Search className="w-5 h-5 text-white hover:text-orange-400" />
             </button>
 
-            {/* Claim Free Audit - only on desktop */}
+            {/* Claim Free Audit - Desktop */}
             <Link
               href="/free-audit"
-              className="hidden md:inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold shadow-xl hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition duration-300 ease-in-out cursor-pointer"
+              className="hidden md:inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold shadow-xl hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition"
             >
               Claim Free Audit
             </Link>
 
-            {/* Menu Toggle */}
+            {/* Mobile Menu Button */}
             <button
-              onClick={() => setMenuOpen(prev => !prev)}
-              className="md:hidden p-1.5 text-gray-200 focus:outline-none z-[101]"
+              onClick={() => setMenuOpen((prev) => !prev)}
+              className="md:hidden p-1.5 text-gray-200 z-[101]"
               aria-label="Toggle menu"
             >
               <svg
@@ -204,17 +202,13 @@ export default function Header() {
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 right-0 h-screen w-[80%] max-w-xs bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[120] ${
+        className={`fixed top-0 right-0 h-screen w-[80%] max-w-xs bg-black text-white shadow-2xl flex flex-col transition-transform duration-300 ease-in-out z-[120] ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
-        style={{
-          transformOrigin: "top right",
-          borderTopLeftRadius: "12px",
-        }}
       >
         <button
           onClick={() => setMenuOpen(false)}
-          className="absolute top-4 right-4 text-gray-300 hover:text-red-500 focus:outline-none"
+          className="absolute top-4 right-4 text-gray-300 hover:text-red-500"
           aria-label="Close menu"
         >
           ✕
@@ -225,15 +219,9 @@ export default function Header() {
             Betazu AI
           </Link>
           <Link href="/" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Home</Link>
-          {[
-            { href: "/#ai-tools", label: "AI Tools" },
-            { href: "/#websites", label: "Websites" },
-            { href: "/#automation", label: "Automation" },
-          ].map(({ href, label }) => (
-            <Link key={href} href={href} onClick={() => setMenuOpen(false)} className="hover:text-blue-400">
-              {label}
-            </Link>
-          ))}
+          <Link href="/#ai-tools" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">AI Tools</Link>
+          <Link href="/#websites" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Websites</Link>
+          <Link href="/#automation" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Automation</Link>
           <Link href="/our-works" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Our Works</Link>
           <Link href="/contact" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Contact Us</Link>
 
@@ -241,7 +229,7 @@ export default function Header() {
           <Link
             href="/free-audit"
             onClick={() => setMenuOpen(false)}
-            className="mt-6 px-4 py-2 rounded-full text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold text-center shadow-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition duration-300 ease-in-out"
+            className="mt-6 px-4 py-2 rounded-full text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold text-center shadow-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition"
           >
             Claim Free Audit
           </Link>
@@ -250,11 +238,11 @@ export default function Header() {
 
       {/* Search Overlay */}
       {showSearch && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[999]">
+        <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-[999]">
           <div className="relative w-[90%] max-w-sm sm:max-w-2xl px-4 sm:px-6">
             <button
               onClick={() => setShowSearch(false)}
-              className="absolute -top-8 right-2 text-gray-300 text-lg sm:text-xl hover:text-red-500"
+              className="absolute -top-8 right-2 text-gray-300 text-lg hover:text-red-500"
               aria-label="Close search"
             >
               ✕
