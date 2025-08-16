@@ -78,14 +78,13 @@ export default function Header() {
   return (
     <>
       {/* Header */}
-     <header
-  className={`fixed top-0 left-0 w-full max-w-[100vw] z-50 transition-colors duration-300 ${
-    menuOpen || scrolled
-      ? "bg-blue/60 backdrop-blur-md shadow-md"
-      : "bg-transparent backdrop-blur-md"
-  }`}
->
-
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+          menuOpen || scrolled
+            ? "bg-blue/60 backdrop-blur-md shadow-md"
+            : "bg-transparent backdrop-blur-md"
+        }`}
+      >
         {/* Container */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
@@ -192,69 +191,68 @@ export default function Header() {
         </div>
       </header>
 
-    {/* Overlay */}
-{menuOpen && (
-  <div
-    onClick={() => setMenuOpen(false)}
-    className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[90] transition-opacity"
-  />
-)}
-{/* Mobile Drawer */}
-<div
-  className={`fixed top-16 sm:top-20 right-0 h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)] w-full max-w-[100vw] bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[100] ${
-    menuOpen ? "translate-x-0" : "translate-x-full"
-  }`}
->
-  {/* Close Button */}
-  <button
-    onClick={() => setMenuOpen(false)}
-    className="absolute top-3 right-3 text-gray-300 hover:text-red-500 focus:outline-none"
-    aria-label="Close menu"
-  >
-    ✕
-  </button>
+      {/* Overlay */}
+      {menuOpen && (
+        <div
+          onClick={() => setMenuOpen(false)}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[90] transition-opacity"
+        />
+      )}
 
-  {/* Nav */}
-  <nav className="flex flex-col gap-5 text-lg font-medium px-6 pt-12 pb-6 overflow-y-auto">
-    <Link
-      href="/betazuai"
-      onClick={() => setMenuOpen(false)}
-      className="relative font-semibold text-transparent bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 to-blue-500 bg-clip-text animate-gradient"
-    >
-      Betazu AI
-    </Link>
-    <Link href="/" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Home</Link>
-
-    {[
-      { href: "/#ai-tools", label: "AI Tools" },
-      { href: "/#websites", label: "Websites" },
-      { href: "/#automation", label: "Automation" },
-    ].map(({ href, label }) => (
-      <Link
-        key={href}
-        href={href}
-        onClick={() => setMenuOpen(false)}
-        className="hover:text-blue-400"
+      {/* Mobile Drawer */}
+      <div
+        className={`fixed top-16 sm:top-20 right-0 h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)] w-full bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[100] ${
+          menuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
-        {label}
-      </Link>
-    ))}
+        {/* Close Button */}
+        <button
+          onClick={() => setMenuOpen(false)}
+          className="absolute top-3 right-3 text-gray-300 hover:text-red-500 focus:outline-none"
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
 
-    <Link href="/our-works" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Our Works</Link>
-    <Link href="/contact" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Contact Us</Link>
+        {/* Nav */}
+        <nav className="flex flex-col gap-5 text-lg font-medium px-6 pt-12 pb-6 overflow-y-auto">
+          <Link
+            href="/betazuai"
+            onClick={() => setMenuOpen(false)}
+            className="relative font-semibold text-transparent bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 to-blue-500 bg-clip-text animate-gradient"
+          >
+            Betazu AI
+          </Link>
+          <Link href="/" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Home</Link>
 
-    {/* Claim Free Audit - Mobile */}
-    <Link
-      href="/free-audit"
-      onClick={() => setMenuOpen(false)}
-      className="mt-6 px-4 py-2 rounded-full text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold text-center shadow-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition duration-300 ease-in-out"
-    >
-      Claim Free Audit
-    </Link>
-  </nav>
-</div>
+          {[
+            { href: "/#ai-tools", label: "AI Tools" },
+            { href: "/#websites", label: "Websites" },
+            { href: "/#automation", label: "Automation" },
+          ].map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={() => setMenuOpen(false)}
+              className="hover:text-blue-400"
+            >
+              {label}
+            </Link>
+          ))}
 
+          <Link href="/our-works" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Our Works</Link>
+          <Link href="/contact" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Contact Us</Link>
 
+          {/* Claim Free Audit - Mobile */}
+          <Link
+            href="/free-audit"
+            onClick={() => setMenuOpen(false)}
+            className="mt-6 px-4 py-2 rounded-full text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold text-center shadow-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition duration-300 ease-in-out"
+          >
+            Claim Free Audit
+          </Link>
+        </nav>
+      </div>
 
       {/* Search Overlay */}
       {showSearch && (
