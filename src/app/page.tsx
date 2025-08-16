@@ -78,6 +78,7 @@ export default function Home() {
 <main className="flex flex-col min-h-screen bg-neutral-950 text-gray-100 font-sans overflow-x-hidden">
 
       {/* ================= HERO ================= */}
+{/* ================= HERO ================= */}
 <section className="relative z-10 flex-grow flex items-center justify-center py-16 px-4 sm:py-24 sm:px-6 md:py-32 md:px-12 bg-gradient-to-b from-neutral-950 to-neutral-900 overflow-hidden">
 
   {/* === Glowing background rings === */}
@@ -86,13 +87,13 @@ export default function Home() {
     <div className="absolute bottom-10 right-10 w-[200px] sm:w-[300px] md:w-[400px] h-[200px] sm:h-[300px] md:h-[400px] bg-orange-400 opacity-10 rounded-full blur-[50px] sm:blur-[80px] md:blur-[100px] animate-pulse-slow" />
   </div>
 
-  <div className="max-w-7xl grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center relative">
+  <div className="max-w-7xl grid lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-20 items-center relative">
 
     {/* === Faces Illustration === */}
     <div className="order-1 lg:order-2 flex justify-center items-center relative">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15)_0%,rgba(168,85,247,0.12)_35%,rgba(249,115,22,0.1)_70%,transparent_100%)] blur-xl sm:blur-2xl scale-110 sm:scale-125" />
       <div className="relative flex gap-3 sm:gap-6 md:gap-8 lg:gap-10" role="img" aria-label="Animated faces illustration">
-
+        
         {/* === Glasses Face === */}
         <svg
           viewBox="0 0 200 200"
@@ -188,14 +189,15 @@ export default function Home() {
 
       </div>
     </div>
-
-    {/* === Text Column === */}
+ {/* === Text Column === */}
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.4 }}
       className="order-2 lg:order-1 text-center lg:text-left"
     >
+    
+      {/* === Heading === */}
       <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-4 sm:mb-6 md:mb-6 text-white leading-tight tracking-tight">
         <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-orange-400 text-transparent bg-clip-text">
           Betazu
@@ -203,20 +205,24 @@ export default function Home() {
         – AI + Web for Bold Founders
       </h1>
 
+      {/* === Subtitle === */}
       <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 md:mb-10 text-gray-400 max-w-xl mx-auto lg:mx-0">
         Build smarter. Launch faster. <br className="hidden sm:block" />
-        Custom AI tools and Next.js websites crafted by an Actor‑turned‑AI Entrepreneur for founders & creators.
+        Custom AI tools and Next.js websites crafted by an Actor-turned-AI Entrepreneur for founders & creators.
       </p>
 
+      {/* === CTA Buttons === */}
       <div className="flex flex-wrap justify-center lg:justify-start gap-3 sm:gap-4">
         <Link
           href="/startbetazufree"
-          className="rounded-xl bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 px-5 py-2.5 sm:px-6 sm:py-3 text-white font-semibold shadow-xl hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)]"
+          aria-label="Start Betazu Free"
+          className="rounded-xl bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 px-5 py-2.5 sm:px-6 sm:py-3 text-white font-semibold shadow-xl hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-transform"
         >
           Start Betazu Free
         </Link>
         <Link
           href="/demo"
+          aria-label="View Live Demo"
           className="rounded-xl border border-white/10 px-5 py-2.5 sm:px-6 sm:py-3 text-gray-300 hover:bg-white/10 hover:backdrop-blur-md transition-colors"
         >
           Live Demo
@@ -225,7 +231,6 @@ export default function Home() {
     </motion.div>
   </div>
 </section>
-
 
 
         {/* ================= FEATURES ================= */}
