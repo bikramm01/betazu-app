@@ -1,16 +1,16 @@
-import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
-    const { name, email, website, goal } = await req.json();
+    const body = await req.json();
+    const { name, email, website, goal } = body;
 
-    // 1️⃣ Send to YOU
-    await resend.emails.send({
-      from: "Betazu <onboarding@resend.dev>", // Change after domain verification
-      to: "mbikram210@gmail.com", // Replace with your inbox
+    // ✅ Send only to your verified inbox in sandbox mode
+    const { data, error } = await resend.emails.send({
+      from: "Betazu <onboarding@resend.dev>", // allowed in sandbox
+      to: "mbikram210@gmail.com", // must be your verified email in sandbox
       subject: `New Free Audit Request from ${name}`,
       html: `
         <h2>New Free Audit Request</h2>
@@ -21,24 +21,18 @@ export async function POST(req: Request) {
       `,
     });
 
-    // 2️⃣ Auto "No Reply" email to client
-    await resend.emails.send({
-      from: "Betazu Team <onboarding@resend.dev>",
-      to: email,
-      subject: "Your Free Website & AI Audit Request",
-      html: `
-        <h2>Hi ${name},</h2>
-        <p>Thanks for requesting a <strong>Free Website & AI Audit</strong> from Betazu.</p>
-        <p>We’ll review your website and send your detailed audit within <strong>24 hours</strong>.</p>
-        <p style="color: gray; font-size: 12px;">
-          This is an automated confirmation email — please do not reply.
-        </p>
-      `,
-    });
+    if (error) {
+      console.error("Resend API error:", error);
+      return new Response(JSON.stringify({ error: error.message || error }), {
+        status: 500,
+      });
+    }
 
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Free audit email error:", error);
-    return NextResponse.json({ success: false, error }, { status: 500 });
+    return new Response(JSON.stringify({ success: true, data }), { status: 200 });
+  } catch (err) {
+    console.error("API route error:", err);
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      status: 500,
+    });
   }
 }
