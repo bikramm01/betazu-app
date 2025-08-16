@@ -26,17 +26,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="antialiased flex flex-col min-h-screen bg-black text-white">
-        {/* Fixed Header */}
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} w-full h-full`}
+    >
+      <body className="antialiased flex flex-col min-h-screen w-full h-full m-0 p-0 bg-black text-white">
+        {/* Fixed header */}
         <Header />
 
-        {/* Main content (with top padding so it doesn’t go under header) */}
-        <main className="flex-grow pt-16 px-4 sm:px-6 lg:px-8">
+        {/* Main content, full width, no side borders */}
+        <main className="flex-grow pt-16 w-full">
           {children}
         </main>
 
-        {/* Footer */}
         <Footer />
       </body>
     </html>
