@@ -27,12 +27,30 @@
 }
 
 /* ✅ Apply base colors and fonts */
-body {
+html, body {
+  margin: 0;
+  padding: 0;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  overflow-x: hidden;     /* 🚀 Prevent horizontal scroll */
+  max-width: 100%;        /* 🚀 No extra right overflow */
+  height: 100%;           /* Keep full height */
 }
 
+/* ✅ Prevent black side borders on mobile */
+* {
+  box-sizing: border-box;
+}
+
+/* ✅ Remove extra space under header/footer */
+img, video, svg, canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ✅ Code font */
 code, pre {
   font-family: var(--font-mono);
 }
@@ -61,10 +79,4 @@ code, pre {
 
 .animate-kenburns {
   animation: kenburns 15s ease-in-out infinite alternate;
-}
-
-/* ✅ Prevent unwanted horizontal scroll */
-html, body {
-  overflow-x: hidden;
-  max-width: 100%;
 }
