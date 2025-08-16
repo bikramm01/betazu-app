@@ -13,29 +13,31 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  subsets: ["monospace", "Courier New", "monospace"],
+  subsets: ["latin"],
+  display: "swap",
+  fallback: ["monospace", "Courier New", "monospace"],
 });
 
 export const metadata: Metadata = {
   title: "Betazu - AI + Web for Bold Founders",
-  description: "Betazu builds modern AI-powered and web-based solutions for ambitious founders.",
+  description:
+    "Betazu builds modern AI-powered and web-based solutions for ambitious founders.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="antialiased flex flex-col min-h-screen overflow-x-hidden">
-        {/* Header always full width */}
-        <div className="w-full">
-          <Header />
-        </div>
+      <body className="antialiased flex flex-col min-h-screen bg-black text-white">
+        {/* Fixed Header */}
+        <Header />
 
-        {/* Main content with same width rules */}
-        <main className="flex-grow w-full">{children}</main>
+        {/* Main content (with top padding so it doesn’t go under header) */}
+        <main className="flex-grow pt-16 px-4 sm:px-6 lg:px-8">
+          {children}
+        </main>
 
-        <div className="w-full">
-          <Footer />
-        </div>
+        {/* Footer */}
+        <Footer />
       </body>
     </html>
   );
