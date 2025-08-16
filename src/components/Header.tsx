@@ -199,10 +199,9 @@ export default function Header() {
     className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[90] transition-opacity"
   />
 )}
-
 {/* Mobile Drawer */}
 <div
-  className={`fixed top-0 right-0 h-screen w-full max-w-[100vw] bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[100] ${
+  className={`fixed top-16 sm:top-20 right-0 h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)] w-full max-w-[100vw] bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[100] ${
     menuOpen ? "translate-x-0" : "translate-x-full"
   }`}
 >
@@ -216,7 +215,7 @@ export default function Header() {
   </button>
 
   {/* Nav */}
-  <nav className="flex flex-col gap-5 text-lg font-medium px-6 pt-20 pb-6 overflow-y-auto">
+  <nav className="flex flex-col gap-5 text-lg font-medium px-6 pt-12 pb-6 overflow-y-auto">
     <Link
       href="/betazuai"
       onClick={() => setMenuOpen(false)}
@@ -254,6 +253,7 @@ export default function Header() {
     </Link>
   </nav>
 </div>
+
 
 
       {/* Search Overlay */}
