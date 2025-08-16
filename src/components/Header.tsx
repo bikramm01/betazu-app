@@ -21,7 +21,7 @@ export default function Header() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const servicesRef = useRef<HTMLDivElement | null>(null);
 
-  // Close dropdown when clicking outside
+  // close services dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) {
@@ -32,19 +32,20 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Add shadow when scrolled
+  // header background change on scroll
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Placeholder typing animation
+  // typing animation
   useEffect(() => {
     setPlaceholderText(placeholders[0]);
     let placeholderIndex = 0;
     let charIndex = 0;
     let typing = true;
+
     const typeInterval = setInterval(() => {
       const currentText = placeholders[placeholderIndex];
       if (typing) {
@@ -64,6 +65,7 @@ export default function Header() {
         }
       }
     }, 100);
+
     return () => clearInterval(typeInterval);
   }, []);
 
@@ -75,16 +77,15 @@ export default function Header() {
 
   return (
     <>
-      {/* ✅ Fixed Header */}
+      {/* Header */}
       <header
         className={`fixed top-0 left-0 right-0 w-full z-50 transition-colors duration-300 ${
           menuOpen || scrolled
-            ? "bg-blue/60 backdrop-blur-md shadow-md"
-            : "bg-transparent backdrop-blur-md"
+            ? "bg-black/70 backdrop-blur-md shadow-md"
+            : "bg-transparent"
         }`}
       >
-        {/* ✅ This wrapper matches your main layout width */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <Image src="/logo.png" alt="Betazu Logo" width={30} height={30} />
@@ -105,7 +106,9 @@ export default function Header() {
             <div className="relative" ref={servicesRef}>
               <div
                 className="flex items-center gap-1 hover:text-blue-400 cursor-pointer"
+                onMouseEnter={() => setServicesOpen(true)}
                 onClick={() => setServicesOpen(prev => !prev)}
+                aria-expanded={servicesOpen}
               >
                 <span className="font-medium">What We Do</span>
                 <svg
@@ -144,19 +147,19 @@ export default function Header() {
 
           {/* Right Side */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Search button */}
+            {/* Search */}
             <button
               onClick={() => setShowSearch(true)}
-              className="p-1.5 sm:p-2"
+              className="p-2"
               aria-label="Open search"
             >
               <Search className="w-5 h-5 text-white hover:text-orange-400" />
             </button>
 
-            {/* Claim Free Audit - only on desktop */}
+            {/* Claim Free Audit - Desktop */}
             <Link
               href="/free-audit"
-              className="hidden md:inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold shadow-xl hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition duration-300 ease-in-out cursor-pointer"
+              className="hidden md:inline-block px-4 py-1.5 rounded-full text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold shadow-xl hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition"
             >
               Claim Free Audit
             </Link>
@@ -164,7 +167,7 @@ export default function Header() {
             {/* Menu Toggle */}
             <button
               onClick={() => setMenuOpen(prev => !prev)}
-              className="md:hidden p-1.5 text-gray-200 focus:outline-none z-[101]"
+              className="md:hidden p-2 text-gray-200 focus:outline-none"
               aria-label="Toggle menu"
             >
               <svg
@@ -185,20 +188,19 @@ export default function Header() {
         </div>
       </header>
 
-      {/* ✅ Mobile Drawer */}
+      {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 right-0 h-screen w-[85vw] max-w-sm bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[100] ${
+        className={`fixed top-0 right-0 h-screen w-[80%] max-w-xs bg-black text-white shadow-2xl flex flex-col transition-transform duration-300 ease-in-out z-[100] ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <button
           onClick={() => setMenuOpen(false)}
-          className="absolute top-4 right-4 text-gray-300 hover:text-red-500 focus:outline-none"
+          className="absolute top-4 right-4 text-gray-300 hover:text-red-500"
           aria-label="Close menu"
         >
           ✕
         </button>
-
         <nav className="flex flex-col gap-5 text-lg font-medium px-6 pt-20 pb-6 overflow-y-auto">
           <Link href="/betazuai" onClick={() => setMenuOpen(false)} className="relative font-semibold text-transparent bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 to-blue-500 bg-clip-text animate-gradient">
             Betazu AI
@@ -220,7 +222,7 @@ export default function Header() {
           <Link
             href="/free-audit"
             onClick={() => setMenuOpen(false)}
-            className="mt-6 px-4 py-2 rounded-full text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold text-center shadow-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition duration-300 ease-in-out"
+            className="mt-6 px-4 py-2 rounded-full text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold text-center shadow-lg hover:scale-105 transition"
           >
             Claim Free Audit
           </Link>
@@ -229,11 +231,11 @@ export default function Header() {
 
       {/* Search Overlay */}
       {showSearch && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[999]">
-          <div className="relative w-[90%] max-w-sm sm:max-w-2xl px-4 sm:px-6">
+        <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-[999]">
+          <div className="relative w-[90%] max-w-xl px-4">
             <button
               onClick={() => setShowSearch(false)}
-              className="absolute -top-8 right-2 text-gray-300 text-lg sm:text-xl hover:text-red-500"
+              className="absolute -top-8 right-2 text-gray-300 text-xl hover:text-red-500"
               aria-label="Close search"
             >
               ✕
@@ -244,15 +246,15 @@ export default function Header() {
                 type="text"
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
-                className="w-full text-base sm:text-2xl px-4 sm:px-6 py-2 sm:py-4 rounded-full bg-white text-black shadow-lg pr-12 sm:pr-14"
+                className="w-full text-xl px-6 py-4 rounded-full bg-white text-black shadow-lg pr-14"
                 placeholder={placeholderText}
               />
               <button
                 onClick={handleSearch}
-                className="absolute top-1/2 right-3 sm:right-4 -translate-y-1/2 text-gray-700 hover:text-blue-600"
+                className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-700 hover:text-blue-600"
                 aria-label="Search"
               >
-                <Search className="h-5 w-5 sm:h-6 sm:w-6" />
+                <Search className="h-6 w-6" />
               </button>
             </div>
           </div>
