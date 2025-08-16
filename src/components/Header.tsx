@@ -3,179 +3,262 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Search, Menu, X } from "lucide-react";
+import { Search } from "lucide-react";
+
+const placeholders = [
+  "Search on Betazu AI...",
+  "Type anything...",
+  "Explore instantly...",
+  "Your next idea starts here...",
+];
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [placeholderText, setPlaceholderText] = useState("");
   const [servicesOpen, setServicesOpen] = useState(false);
-  const servicesRef = useRef<HTMLDivElement>(null);
+  const servicesRef = useRef<HTMLDivElement | null>(null);
 
-  // Rotate search placeholder text
-  const placeholders = [
-    "Search properties...",
-    "Search by city...",
-    "Search by price...",
-  ];
+  // Close services dropdown on outside click
   useEffect(() => {
-    let index = 0;
-    const interval = setInterval(() => {
-      setSearchText(placeholders[index]);
-      index = (index + 1) % placeholders.length;
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Detect scroll
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Close services dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        servicesRef.current &&
-        !servicesRef.current.contains(event.target as Node)
-      ) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) {
         setServicesOpen(false);
       }
-    }
+    };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Scroll effect
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Typing placeholder effect
+  useEffect(() => {
+    let placeholderIndex = 0;
+    let charIndex = 0;
+    let typing = true;
+
+    const typeInterval = setInterval(() => {
+      const currentText = placeholders[placeholderIndex];
+      if (typing) {
+        if (charIndex < currentText.length) {
+          setPlaceholderText(currentText.slice(0, charIndex + 1));
+          charIndex++;
+        } else {
+          typing = false;
+        }
+      } else {
+        if (charIndex > 0) {
+          setPlaceholderText(currentText.slice(0, charIndex - 1));
+          charIndex--;
+        } else {
+          typing = true;
+          placeholderIndex = (placeholderIndex + 1) % placeholders.length;
+        }
+      }
+    }, 100);
+
+    return () => clearInterval(typeInterval);
+  }, []);
+
+  const handleSearch = () => {
+    if (searchText.trim()) {
+      console.log("Searching for:", searchText);
+    }
+  };
+
   return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled || menuOpen ? "bg-white/80 backdrop-blur-md shadow" : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        {/* Logo */}
-        <Link href="/" className="flex items-center">
-          <Image src="/logo.png" alt="Logo" width={140} height={40} priority />
-        </Link>
-
-        {/* Desktop Menu */}
-        <nav className="hidden md:flex items-center space-x-8">
-          <Link href="/" className="hover:text-blue-600">Home</Link>
-          <div className="relative" ref={servicesRef}>
-            <button
-              onClick={() => setServicesOpen(!servicesOpen)}
-              className="hover:text-blue-600"
-            >
-              Services
-            </button>
-            {servicesOpen && (
-              <div className="absolute top-full mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
-                <Link href="/buy" className="block px-4 py-2 hover:bg-gray-100">Buy</Link>
-                <Link href="/rent" className="block px-4 py-2 hover:bg-gray-100">Rent</Link>
-                <Link href="/sell" className="block px-4 py-2 hover:bg-gray-100">Sell</Link>
-              </div>
-            )}
-          </div>
-          <Link href="/about" className="hover:text-blue-600">About</Link>
-          <Link href="/contact" className="hover:text-blue-600">Contact</Link>
-        </nav>
-
-        {/* Desktop Right Side */}
-        <div className="hidden md:flex items-center space-x-4">
-          <button
-            onClick={() => setShowSearch(true)}
-            className="p-2 rounded-full hover:bg-gray-200"
-          >
-            <Search className="w-5 h-5" />
-          </button>
-          <Link
-            href="/claim"
-            className="px-4 py-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold hover:opacity-90"
-          >
-            Claim Free Audit
+    <>
+      {/* Header */}
+      <header
+        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
+          menuOpen || scrolled
+            ? "bg-[#0a0a0a]/80 backdrop-blur-md shadow-md"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2">
+            <Image src="/logo.png" alt="Betazu Logo" width={32} height={32} />
+            <span className="text-lg sm:text-xl font-bold text-white">Betazu</span>
           </Link>
-        </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setMenuOpen(true)}
-          className="md:hidden p-2 rounded hover:bg-gray-200"
-        >
-          <Menu className="w-6 h-6" />
-        </button>
-      </div>
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
+            <Link
+              href="/betazuai"
+              className="relative font-semibold text-transparent bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 to-blue-500 bg-clip-text animate-[gradient_3s_linear_infinite]"
+            >
+              Betazu AI
+            </Link>
+            <Link href="/" className="hover:text-blue-400">Home</Link>
 
-      {/* Mobile Drawer */}
-      {menuOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50" onClick={() => setMenuOpen(false)}>
-          <div
-            className="absolute top-0 right-0 w-72 h-full bg-white shadow-lg p-6 flex flex-col"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-center mb-6">
-              <Image src="/logo.png" alt="Logo" width={120} height={30} />
-              <button onClick={() => setMenuOpen(false)}>
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            <nav className="flex flex-col space-y-4">
-              <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
-              <button
-                onClick={() => setServicesOpen(!servicesOpen)}
-                className="text-left"
+            {/* Services Dropdown */}
+            <div className="relative" ref={servicesRef}>
+              <div
+                className="flex items-center gap-1 hover:text-blue-400 cursor-pointer"
+                onClick={() => setServicesOpen(prev => !prev)}
+                aria-expanded={servicesOpen}
               >
-                Services
-              </button>
+                <span className="font-medium">What We Do</span>
+                <svg
+                  className={`w-4 h-4 transition-transform ${servicesOpen ? "rotate-180" : ""}`}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
               {servicesOpen && (
-                <div className="ml-4 flex flex-col space-y-2">
-                  <Link href="/buy" onClick={() => setMenuOpen(false)}>Buy</Link>
-                  <Link href="/rent" onClick={() => setMenuOpen(false)}>Rent</Link>
-                  <Link href="/sell" onClick={() => setMenuOpen(false)}>Sell</Link>
+                <div className="absolute top-8 left-0 bg-[#1a1a1a] text-white rounded-xl shadow-lg py-3 px-4 w-52 animate-fade-in z-50">
+                  {[
+                    { href: "/#ai-tools", label: "AI Tools" },
+                    { href: "/#websites", label: "Websites" },
+                    { href: "/#automation", label: "Automation" },
+                  ].map(({ href, label }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setServicesOpen(false)}
+                      className="block py-2 px-3 rounded-lg hover:bg-blue-500/10 hover:text-orange-400"
+                    >
+                      {label}
+                    </Link>
+                  ))}
                 </div>
               )}
-              <Link href="/about" onClick={() => setMenuOpen(false)}>About</Link>
-              <Link href="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
-            </nav>
+            </div>
+
+            <Link href="/our-works" className="hover:text-blue-400">Our Works</Link>
+            <Link href="/contact" className="hover:text-blue-400">Contact Us</Link>
+          </div>
+
+          {/* Right Side */}
+          <div className="flex items-center gap-3">
+            {/* Search button */}
+            <button
+              onClick={() => setShowSearch(true)}
+              className="p-1.5"
+              aria-label="Open search"
+            >
+              <Search className="w-5 h-5 text-white hover:text-orange-400" />
+            </button>
+
+            {/* Claim Free Audit - Desktop */}
             <Link
-              href="/claim"
-              className="mt-auto px-4 py-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold hover:opacity-90 text-center"
-              onClick={() => setMenuOpen(false)}
+              href="/free-audit"
+              className="hidden md:inline-block px-4 py-1.5 rounded-full text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold shadow-lg hover:scale-105 transition"
             >
               Claim Free Audit
             </Link>
-          </div>
-        </div>
-      )}
 
-      {/* Search Overlay */}
-      {showSearch && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center">
-          <div className="bg-white rounded-lg shadow-lg w-11/12 max-w-lg p-6">
-            <div className="flex items-center">
-              <input
-                type="text"
-                placeholder={searchText}
-                className="flex-1 p-3 border border-gray-300 rounded-l-lg focus:outline-none"
-              />
-              <button
-                className="bg-blue-600 text-white px-4 py-3 rounded-r-lg"
-                onClick={() => setShowSearch(false)}
-              >
-                <Search className="w-5 h-5" />
-              </button>
-            </div>
+            {/* Mobile Menu Toggle */}
             <button
-              className="mt-4 text-gray-600 hover:text-gray-900"
-              onClick={() => setShowSearch(false)}
+              onClick={() => setMenuOpen(prev => !prev)}
+              className="md:hidden p-1.5 text-gray-200 focus:outline-none z-[101]"
+              aria-label="Toggle menu"
             >
-              Close
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+              >
+                {menuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
             </button>
           </div>
         </div>
+      </header>
+
+      {/* Mobile Drawer */}
+      <div
+        className={`fixed top-0 right-0 h-screen w-[80%] max-w-xs bg-black text-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out z-[100] ${
+          menuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <button
+          onClick={() => setMenuOpen(false)}
+          className="absolute top-4 right-4 text-gray-300 hover:text-red-500 focus:outline-none"
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
+
+        <nav className="flex flex-col gap-5 text-lg font-medium px-6 pt-20 pb-6 overflow-y-auto">
+          <Link href="/betazuai" onClick={() => setMenuOpen(false)} className="relative font-semibold text-transparent bg-gradient-to-r from-red-500 via-yellow-400 via-green-400 to-blue-500 bg-clip-text animate-[gradient_3s_linear_infinite]">
+            Betazu AI
+          </Link>
+          <Link href="/" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Home</Link>
+          {[
+            { href: "/#ai-tools", label: "AI Tools" },
+            { href: "/#websites", label: "Websites" },
+            { href: "/#automation", label: "Automation" },
+          ].map(({ href, label }) => (
+            <Link key={href} href={href} onClick={() => setMenuOpen(false)} className="hover:text-blue-400">
+              {label}
+            </Link>
+          ))}
+          <Link href="/our-works" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Our Works</Link>
+          <Link href="/contact" onClick={() => setMenuOpen(false)} className="hover:text-blue-400">Contact Us</Link>
+
+          {/* Claim Free Audit - Mobile */}
+          <Link
+            href="/free-audit"
+            onClick={() => setMenuOpen(false)}
+            className="mt-6 px-4 py-2 rounded-full text-sm bg-gradient-to-br from-blue-500 via-indigo-500 to-orange-400 text-white font-semibold text-center shadow-lg hover:scale-105 transition"
+          >
+            Claim Free Audit
+          </Link>
+        </nav>
+      </div>
+
+      {/* Search Overlay */}
+      {showSearch && (
+        <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-[999]">
+          <div className="relative w-[90%] max-w-sm sm:max-w-2xl px-4 sm:px-6">
+            <button
+              onClick={() => setShowSearch(false)}
+              className="absolute -top-8 right-2 text-gray-300 text-xl hover:text-red-500"
+              aria-label="Close search"
+            >
+              ✕
+            </button>
+            <div className="relative">
+              <input
+                autoFocus
+                type="text"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                className="w-full text-lg sm:text-2xl px-6 py-3 sm:py-4 rounded-full bg-white text-black shadow-lg pr-14"
+                placeholder={placeholderText}
+              />
+              <button
+                onClick={handleSearch}
+                className="absolute top-1/2 right-4 -translate-y-1/2 text-gray-700 hover:text-blue-600"
+                aria-label="Search"
+              >
+                <Search className="h-6 w-6" />
+              </button>
+            </div>
+          </div>
+        </div>
       )}
-    </header>
+    </>
   );
 }
