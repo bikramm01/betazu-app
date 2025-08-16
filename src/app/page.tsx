@@ -79,8 +79,7 @@ export default function Home() {
 
 {/* ================= HERO ================= */}
 <section
-  className="flex flex-col justify-center items-center bg-gradient-to-b from-black to-gray-900 px-4 overflow-x-hidden"
-  style={{ minHeight: "100svh" }}
+  className="flex flex-col justify-center items-center bg-gradient-to-b from-black to-gray-900 px-4 overflow-x-hidden min-h-screen min-h-[100svh]"
 >
 
   {/* === Glowing background rings === */}
