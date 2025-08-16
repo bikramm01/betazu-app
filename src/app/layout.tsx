@@ -20,15 +20,22 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Betazu - AI + Web for Bold Founders",
-  description: "Betazu builds modern AI-powered and web-based solutions for ambitious founders.",
+  description:
+    "Betazu builds modern AI-powered and web-based solutions for ambitious founders.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="antialiased flex flex-col min-h-screen">
+      <body className="antialiased flex flex-col min-h-screen bg-black text-white">
+        {/* Fixed header */}
         <Header />
-        <main className="flex-grow">{children}</main>
+
+        {/* Main content, padded so it doesn’t hide under the header */}
+        <main className="flex-grow pt-16 px-4 sm:px-6 lg:px-8">
+          {children}
+        </main>
+
         <Footer />
       </body>
     </html>
