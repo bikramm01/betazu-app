@@ -78,8 +78,9 @@ export default function Home() {
 <main className="flex flex-col min-h-screen bg-neutral-950 text-gray-100 font-sans overflow-x-hidden">
 
 {/* ================= HERO ================= */}
-<section className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-black to-gray-900 px-4"
-         style={{ minHeight: "100dvh" }}>
+<section
+      className="flex flex-col justify-center items-center bg-gradient-to-b from-black to-gray-900 px-4 pb-[env(safe-area-inset-bottom)] overflow-x-hidden"
+      style={{ minHeight: "100dvh" }}>
   {/* === Glowing background rings === */}
   <div className="absolute -z-10 inset-0 pointer-events-none">
     <div className="absolute top-1/3 left-1/4 w-[300px] sm:w-[500px] md:w-[600px] h-[300px] sm:h-[500px] md:h-[600px] bg-blue-500 opacity-10 rounded-full blur-[60px] sm:blur-[100px] md:blur-[120px] animate-pulse-slow" />

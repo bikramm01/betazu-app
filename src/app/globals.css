@@ -47,3 +47,7 @@ body {
 .animate-kenburns {
   animation: kenburns 15s ease-in-out infinite alternate;
 }
+
+html, body {
+  overflow-x: hidden;
+}
